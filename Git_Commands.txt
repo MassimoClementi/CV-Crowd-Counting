@@ -1,0 +1,51 @@
+# Per preparare una cartella alla versioning
+git init
+
+# Per aggiungere tutte le cartelle all'analisi dei cambiamenti nel commit
+git add .
+git add !(file_or_dir_name)	add everything but that file/folder
+git add -u			add everything tracked, ignore untracked
+
+# Per controllare lo stato dei cambiamenti
+git status
+
+# Per scartare i cambiamenti
+git checkout FILE_NAME
+
+# Per creare un commit
+git commit -m "Descrizione"
+git reset --hard HEAD~1		revert latest commit and discard changes locally
+git reset --soft HEAD~1		revert latest commit but keep changes on disk
+
+# Per visualizzare la lista dei cambiamenti fatti
+git log
+
+# Per visualizzare la lista delle versioni precedenti ed in caso recuperarle
+git hist
+git checkout <hash_code_in_hist_list>
+
+# Per visualizzare tutti i cambiamenti
+git diff	(unstaged) 
+git diff HEAD	(staged)
+
+
+--------------------------------
+-> Quick ADD-COMMIT-PUSH sequence
+
+git add .
+git status
+git commit -m "Commento"
+git push -u master
+-------------------------------
+
+=> QUICK ALIAS I'VE SET UP IN ~/.bashrc
+ gs -> git status
+ ga -> git add -u
+ gl -> git log
+ gd -> git diff
+gdh -> git diff HEAD
+gc  -> git commit
+
+->I've set up .gitignore to ignore folders
+
+
