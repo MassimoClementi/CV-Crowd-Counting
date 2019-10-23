@@ -1,6 +1,7 @@
 file di prova
 1questo è un file di prova
 1.1 aggiunta questa riga
+1.2 altra aggiunta
 2questo è un file di prova
 3questo è un file di prova
 4questo è un file di prova
