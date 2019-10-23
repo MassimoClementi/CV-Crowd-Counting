@@ -8,3 +8,12 @@ file di prova
 5questo è un file di prova
 6questo è un file di prova
 7questa è la funzione nuova
+
+
+2.1 aggiunta riga{
+    prova prova
+}
+
+2.2 aggiunta riga{
+    prova prova
+}
