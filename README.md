@@ -5,6 +5,15 @@ Crowd Counting - From Real to Synthetic Database
 Read the following paper as reference, understand how it works, try to run it and understand what kind of input data does it need (characterize the dataset)
 > http://visal.cs.cityu.edu.hk/research/residual_regression_counting/
 
+Requirements:
+- python2.7
+- pytorch 0.4.1
+
+To make it run
+- download test set
+- download pretrained models
+- run python test.py
+
 **N.B:** Use "Colab" by Google to run the simulations, if needed
 
 ## Unity and UMA
