@@ -5,3 +5,4 @@ file di prova
 4questo è un file di prova
 5questo è un file di prova
 6questo è un file di prova
+7questa è la funzione nuova
