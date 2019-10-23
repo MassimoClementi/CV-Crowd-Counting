@@ -20,6 +20,9 @@ git reset --soft HEAD~1		revert latest commit but keep changes on disk
 # Per visualizzare la lista dei cambiamenti fatti
 git log
 
+# Per scaricare la versione più aggiornata della repository
+git pull
+
 # Per visualizzare la lista delle versioni precedenti ed in caso recuperarle
 git hist
 git checkout <hash_code_in_hist_list>
