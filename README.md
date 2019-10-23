@@ -6,6 +6,7 @@ Crowd Counting - From Real to Synthetic Database
 - [ ] Deep learning newtork on Python2 or Python3?
 
 
+---
 ## Paper and code
 Read the following paper as reference, understand how it works, try to run it and understand what kind of input data does it need (characterize the dataset)
 > http://visal.cs.cityu.edu.hk/research/residual_regression_counting/
@@ -31,6 +32,9 @@ Install `UMA` library for people generation
 
 Useful video to create UMA characters:
 > https://www.youtube.com/watch?v=KJopeYPw7VI
+
+Useful guide to use instantiation scripts
+> https://docs.unity3d.com/Manual/InstantiatingPrefabs.html
 
 ---
 Give a look to a complete project if we need some particular snippet of code
