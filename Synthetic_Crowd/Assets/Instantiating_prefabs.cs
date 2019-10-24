@@ -13,24 +13,48 @@ public class Instantiating_prefabs : MonoBehaviour{
     public GameObject myPrefab;
 
     // Define script variables accessible from Unity
-    public int x_max;
-    public int y_max;
-    public float x_spacing;
-    public float y_spacing;
+    public int x_max,y_max;
+    public float x_spacing, y_spacing;
+    public int pos_rand_100;  //contribute of the random position
+    public int rot_base, rot_range;
 
     //Define private script variables
-    int rotation = 180;
+    float x_instantiate,y_instantiate;
+    Quaternion rot_instantiate;
+    System.Random rnd = new System.Random();
+    float rand_temp;
 
     // Start is called before the first frame update
     void Start()
     {
         for (int x = 0; x < x_max; x++){
              for (int y = 0; y < y_max; y++){
-                //Create person
-                //TODO: random placement and variable rotation
-                GameObject person = Instantiate(myPrefab,new Vector3((x-x_max/2)*x_spacing,0,
-                                                 (y-y_max/2)*y_spacing),
-                                                  Quaternion.AngleAxis(rotation,Vector3.up));
+                
+                //TODO: introduce other variable to make displacements of
+                //      whole rows(sure) and columns(maybe)
+                // CODE HERE
+
+                //TODO: holes may be present in the crowd -> no instantiation
+                // CODE HERE
+
+                //TODO: need to understand how to change animation (or animation start)
+                //      for each person to make them move asynchronously
+
+                //Manage instantiation variables
+                // Placement
+                    rand_temp = (float)(rnd.Next(0,pos_rand_100)-pos_rand_100/2)/100;   //cast needed
+                    x_instantiate = (x + rand_temp - x_max/2) * x_spacing;
+                    rand_temp = (float)(rnd.Next(0,pos_rand_100)-pos_rand_100/2)/100;
+                    y_instantiate = (y + rand_temp - y_max/2) * y_spacing;
+
+                // Rotation
+                    rand_temp = (float)(rnd.Next(0,2*rot_range)-rot_range);
+                    rot_instantiate = Quaternion.AngleAxis(rot_base+rand_temp,Vector3.up);
+
+                //INSTANTIATE the person
+                GameObject person = Instantiate(myPrefab,
+                                                new Vector3(x_instantiate,0,y_instantiate),
+                                                rot_instantiate);
 
                 /*
                 //Get all the components of the GameObject
