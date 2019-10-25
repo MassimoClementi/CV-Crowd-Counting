@@ -4,6 +4,7 @@ Crowd Counting - From Real to Synthetic Database
 ### TO-DOs:
 - [ ] Create script to instantiate characters with random gender and clothing
 - [ ] Deep learning newtork on Python2 or Python3?
+- [ ] Add environment elements (i.e.buildings, trees and hydrants)
 
 
 ---
