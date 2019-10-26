@@ -5,7 +5,7 @@ Crowd Counting - From Real to Synthetic Database
 - [ ] Create script to instantiate characters with random gender and clothing
 - [ ] Deep learning newtork on Python2 or Python3?
 - [ ] Add environment elements (i.e.buildings, trees and hydrants)
-
+- [ ] Reintroduce shadows in final Unity simulations
 
 ---
 ## Paper and code
@@ -39,6 +39,9 @@ Useful video to create UMA characters:
 
 Useful guide to use instantiation scripts
 > https://docs.unity3d.com/Manual/InstantiatingPrefabs.html
+
+Useful guide to successful create lists of GameObjects
+> https://answers.unity.com/questions/1396614/how-cound-instantiate-all-objcest-in-a-list.html
 
 ---
 Give a look to a complete project if we need some particular snippet of code
