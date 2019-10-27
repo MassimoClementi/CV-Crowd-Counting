@@ -11,7 +11,7 @@ using UnityEngine;
 public class Instantiating_prefabs : MonoBehaviour{
 
     // Define public script variables (accessible from Unity)
-    public GameObject PrefabMale,PrefabFemale,PrefabGirl;  //specific male and female prefabs
+    public GameObject[] PrefabsMale,PrefabsFemale,PrefabsGirl;  //specific male and female prefabs
     public int femaleToMaleRatio_100;
     public int girlRatio_100;
     public int xIstances,yIstances;     //number of people in x and y directions
@@ -59,10 +59,10 @@ public class Instantiating_prefabs : MonoBehaviour{
 
                 //  Gender
                     if (rnd.Next(0,100)<femaleToMaleRatio_100){
-                        if(rnd.Next(0,100)<girlRatio_100) PrefabToUse = PrefabGirl;
-                        else PrefabToUse = PrefabFemale;
+                        if(rnd.Next(0,100)<girlRatio_100) PrefabToUse = PrefabsGirl[Random.Range(0, PrefabsGirl.Length)];
+                        else PrefabToUse = PrefabsFemale[Random.Range(0, PrefabsFemale.Length)];
                     }
-                    else PrefabToUse = PrefabMale;
+                    else PrefabToUse = PrefabsMale[Random.Range(0, PrefabsMale.Length)];
 
                 // INSTANTIATE the person
                     crowd.Insert(personId,
