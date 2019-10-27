@@ -11,8 +11,9 @@ using UnityEngine;
 public class Instantiating_prefabs : MonoBehaviour{
 
     // Define public script variables (accessible from Unity)
-    public GameObject PrefabMale,PrefabFemale;  //specific male and female prefabs
+    public GameObject PrefabMale,PrefabFemale,PrefabGirl;  //specific male and female prefabs
     public int femaleToMaleRatio_100;
+    public int girlRatio_100;
     public int xIstances,yIstances;     //number of people in x and y directions
     public float xSpacing, ySpacing;
     public int posRand_10; //contribute of the random position
@@ -57,9 +58,11 @@ public class Instantiating_prefabs : MonoBehaviour{
                     rotToInstantiate = Quaternion.AngleAxis(rotBase+randTemp,Vector3.up);
 
                 //  Gender
-                    if (rnd.Next(0,100)<femaleToMaleRatio_100) PrefabToUse = PrefabFemale;
+                    if (rnd.Next(0,100)<femaleToMaleRatio_100){
+                        if(rnd.Next(0,100)<girlRatio_100) PrefabToUse = PrefabGirl;
+                        else PrefabToUse = PrefabFemale;
+                    }
                     else PrefabToUse = PrefabMale;
-
 
                 // INSTANTIATE the person
                     crowd.Insert(personId,
