@@ -11,33 +11,35 @@ using UnityEngine;
 public class Instantiating_prefabs : MonoBehaviour{
 
     // Define public script variables (accessible from Unity)
-    public GameObject myPrefab;
-    public int x_n,y_n;     //number of people in x and y directions
-    public float x_spacing, y_spacing;
-    public int pos_rand_100; //contribute of the random position
-    public int column_rand_100; //contribute of the random column displacement
-    public int row_rand_cumul_100; //contribute of the random cumulative whole rows displacement
-    public int rot_base, rot_range;
+    public GameObject PrefabMale,PrefabFemale;  //specific male and female prefabs
+    public int femaleToMaleRatio_100;
+    public int xIstances,yIstances;     //number of people in x and y directions
+    public float xSpacing, ySpacing;
+    public int posRand_10; //contribute of the random position
+    public int columnRand_100; //contribute of the random column displacement
+    public int rowRandCumul_100; //contribute of the random cumulative whole rows displacement
+    public int rotBase, rotRange;
 
 
     //Define private script variables
+    GameObject PrefabToUse;
     List<GameObject> crowd = new List <GameObject>();   //N.B: mandatory to initialize with 0par constructor
-    int person_id = 0;
-    float x_instantiate,y_instantiate;
-    Quaternion rot_instantiate;
+    int personId = 0;
+    float xToInstantiate,yToInstantiate;
+    Quaternion rotToInstantiate;
     System.Random rnd = new System.Random();
-    float rand_temp;
-    float column_rand_index = 0, row_rand_cumul_index = 0;
+    float randTemp;
+    float columnRandIndex = 0, rowRandCumulIndex = 0;
 
 
     void Start(){
-        for (int y = 0; y < y_n; y++){
+        for (int y = 0; y < yIstances; y++){
 
             // Random components evaluation
-            column_rand_index = (float)(rnd.Next(0,column_rand_100)-column_rand_100/2)/100;
-            row_rand_cumul_index += (float)(rnd.Next(0,row_rand_cumul_100))/100;
+            columnRandIndex = (float)(rnd.Next(0,columnRand_100)-columnRand_100/2)/100;
+            rowRandCumulIndex += (float)(rnd.Next(0,rowRandCumul_100))/100;
 
-             for (int x = 0; x < x_n; x++){
+             for (int x = 0; x < xIstances; x++){
 
                 //TODO: need to understand how to change animation (or animation start)
                 //      for each person to make them move asynchronously
@@ -45,32 +47,29 @@ public class Instantiating_prefabs : MonoBehaviour{
 
                 // Manage instantiation variables
                 //  Placement
-                    rand_temp = (float)(rnd.Next(0,pos_rand_100)-pos_rand_100/2)/100;   //cast needed
-                    x_instantiate = (x + column_rand_index + rand_temp - x_n/2) * x_spacing;
-                    rand_temp = (float)(rnd.Next(0,pos_rand_100)-pos_rand_100/2)/100;
-                    y_instantiate = (y + row_rand_cumul_index + rand_temp - y_n/2) * y_spacing;
+                    randTemp = (float)(rnd.Next(0,posRand_10)-posRand_10/2)/100;   //cast needed
+                    xToInstantiate = (x + columnRandIndex + randTemp - xIstances/2) * xSpacing;
+                    randTemp = (float)(rnd.Next(0,posRand_10)-posRand_10/2)/100;
+                    yToInstantiate = (y + rowRandCumulIndex + randTemp - yIstances/2) * ySpacing;
 
                 //  Rotation
-                    rand_temp = (float)(rnd.Next(0,2*rot_range)-rot_range);
-                    rot_instantiate = Quaternion.AngleAxis(rot_base+rand_temp,Vector3.up);
+                    randTemp = (float)(rnd.Next(0,2*rotRange)-rotRange);
+                    rotToInstantiate = Quaternion.AngleAxis(rotBase+randTemp,Vector3.up);
+
+                //  Gender
+                    if (rnd.Next(0,100)<femaleToMaleRatio_100) PrefabToUse = PrefabFemale;
+                    else PrefabToUse = PrefabMale;
 
 
                 // INSTANTIATE the person
-                    crowd.Insert(person_id,
-                                 Instantiate(myPrefab,
-                                             new Vector3(x_instantiate,0,y_instantiate),
-                                             rot_instantiate) as GameObject);
+                    crowd.Insert(personId,
+                                 Instantiate(PrefabToUse,
+                                             new Vector3(xToInstantiate,0,yToInstantiate),
+                                             rotToInstantiate) as GameObject);
 
                 // Quick test code: it WORKS!
                 // crowd[person_id].GetComponent<UMA.CharacterSystem.DynamicCharacterAvatar>().hide = true;
                 // DEBUG_PrintAllComponents(crowd[person_id]);
-
-
-                // TODO: random gender
-                    //person.GetComponent<UMA.CharacterSystem.DynamicCharacterAvatar>().hide = true;
-                    //person.GetComponent<UMA.CharacterSystem.DynamicCharacterAvatar>().ChangeRace("HumanFemale");
-                    //UMA.CharacterSystem.DynamicCharacterAvatar dca = person.GetComponent<UMA.CharacterSystem.DynamicCharacterAvatar>();
-                    //dca.ChangeRace("SkyCar");
 
 
                 // TODO: random clothes (according to the genders) -> i'd suggest arrays
@@ -82,7 +81,7 @@ public class Instantiating_prefabs : MonoBehaviour{
 
 
                 //---
-                person_id++;
+                personId++;
              }
         }
 
@@ -98,8 +97,8 @@ public class Instantiating_prefabs : MonoBehaviour{
         // Custom function: get all the components of the GameObject and print them on Unity Logger
 
         Component[] components = obj.GetComponents(typeof(Component));
-        foreach(Component component in components) {
-            Debug.Log(component.ToString());
+        foreach(Component c in components) {
+            Debug.Log("name "+c.name+" type "+c.GetType() +" basetype "+c.GetType().BaseType);
         }
     }
 
