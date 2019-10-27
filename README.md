@@ -5,7 +5,9 @@ Crowd Counting - From Real to Synthetic Database
 - [ ] Create script to instantiate characters with random gender and clothing
 - [ ] Deep learning newtork on Python2 or Python3?
 - [ ] Add environment elements (i.e.buildings, trees and hydrants)
+- [ ] Check if the extracted reference coordinates are correct, need to extract them few frames later in the `Update` function?
 - [ ] Reintroduce shadows in final Unity simulations
+- [ ] Change script name accordingly (i.e. `SyntheticCrowdGenerator.cs`)
 
 ---
 ## Paper and code
