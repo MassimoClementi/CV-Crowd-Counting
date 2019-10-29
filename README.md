@@ -2,12 +2,15 @@
 Crowd Counting - From Real to Synthetic Database
 
 ### TO-DOs:
-- [ ] Create script to instantiate characters with random gender and clothing
-- [ ] Deep learning newtork on Python2 or Python3?
-- [ ] Add environment elements (i.e.buildings, trees and hydrants)
+- [X] Create script to instantiate characters with random gender and clothing
+- [X] Deep learning newtork on Python2 or Python3? -> **Python2**
+- [ ] [LATER] Add environment elements (i.e.buildings, trees and hydrants) + reintroduce shadows in final Unity simulations
 - [ ] Check if the extracted reference coordinates are correct, need to extract them few frames later in the `Update` function?
-- [ ] Reintroduce shadows in final Unity simulations
 - [ ] Change script name accordingly (i.e. `SyntheticCrowdGenerator.cs`)
+- [ ] Change color distribution accordingly to Raileigh (i.e.) 75% black and blue hues
+- [ ] Get number of people and head coordinates for current camera view (**DO SCRIPT**)
+- [ ] virtualenv + packets to install in remote PC
+
 
 ---
 ## Paper and code
@@ -48,3 +51,21 @@ Useful guide to successful create lists of GameObjects
 ---
 Give a look to a complete project if we need some particular snippet of code
 > https://github.com/albertoxamin/HeterogenousCameraNetwork
+
+## SSH to remote Ubuntu machine
+Data
+> IP: 192.168.165.4
+> user: massimoclementi
+> pw: massimo!clementi
+
+Command to run to access to SSH (with `Pulse Secure`):
+> ssh -Y massimoclementi@192.168.165.4
+
+To copy from local to remote (-r is for folders):
+> scp -r path_to_send massimoclementi@192.168.165.4:/destination_path/
+
+
+
+
+
+
