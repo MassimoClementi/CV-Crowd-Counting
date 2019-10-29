@@ -28,6 +28,8 @@ To make it run
 
 **N.B:** Use "Colab" by Google to run the simulations, if needed
 
+---
+
 ## Unity and UMA
 Install `Unity` (recommended version `2018.4`) and learn C#
 > https://unity.com
@@ -48,14 +50,16 @@ Useful guide to use instantiation scripts
 Useful guide to successful create lists of GameObjects
 > https://answers.unity.com/questions/1396614/how-cound-instantiate-all-objcest-in-a-list.html
 
----
 Give a look to a complete project if we need some particular snippet of code
 > https://github.com/albertoxamin/HeterogenousCameraNetwork
 
+---
+
 ## SSH to remote Ubuntu machine
-Data
 > IP: 192.168.165.4
+
 > user: massimoclementi
+
 > pw: massimo!clementi
 
 Command to run to access to SSH (with `Pulse Secure`):
@@ -64,8 +68,9 @@ Command to run to access to SSH (with `Pulse Secure`):
 To copy from local to remote (-r is for folders):
 > scp -r path_to_send massimoclementi@192.168.165.4:/destination_path/
 
-
-
-
+Automatic login via SSH keys:
+- generate a rsa keypar: `ssh-keygen`
+- copy the key on the remote machine: `ssh-copy-id userid@hostname`
+- now you can login without password
 
 
