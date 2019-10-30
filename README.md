@@ -19,7 +19,8 @@ Read the following paper as reference, understand how it works, try to run it an
 
 Requirements:
 - python2.7
-- pytorch 0.4.1
+- <del>pytorch</del> torchvision 0.4.1
+- torch 1.3.0
 
 To make it run
 - download test set
@@ -72,5 +73,11 @@ Automatic login via SSH keys:
 - generate a rsa keypar: `ssh-keygen`
 - copy the key on the remote machine: `ssh-copy-id userid@hostname`
 - now you can login without password
+
+---
+
+## Virtualenv and running
+Virtualenv guide
+> https://virtualenv.pypa.io/en/latest/userguide/#usage
 
 
