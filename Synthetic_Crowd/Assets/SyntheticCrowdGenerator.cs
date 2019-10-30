@@ -8,7 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Instantiating_prefabs : MonoBehaviour{
+public class SyntheticCrowdGenerator : MonoBehaviour{
 
     // Define public script variables (accessible from Unity)
     public GameObject[] PrefabsMale,PrefabsFemale,PrefabsGirl;  //specific male and female prefabs

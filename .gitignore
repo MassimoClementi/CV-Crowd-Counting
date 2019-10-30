@@ -4,4 +4,4 @@ ResidualRegression-pytorch-master/datasets
 Synthetic_Crowd/*
 !Synthetic_Crowd/Assets/
 Synthetic_Crowd/Assets/*
-!Synthetic_Crowd/Assets/Instantiating_prefabs.cs
+!Synthetic_Crowd/Assets/SyntheticCrowdGenerator.cs
