@@ -2,14 +2,10 @@
 Crowd Counting - From Real to Synthetic Database
 
 ### TO-DOs:
-- [X] Create script to instantiate characters with random gender and clothing
-- [X] Deep learning newtork on Python2 or Python3? -> **Python2**
+- [ ] Get number of people and head coordinates for current camera view (**DO SCRIPT**)
+- [ ] Change color distribution accordingly to Raileigh (i.e.) 75% black and blue hues
 - [ ] [LATER] Add environment elements (i.e.buildings, trees and hydrants) + reintroduce shadows in final Unity simulations
 - [ ] Check if the extracted reference coordinates are correct, need to extract them few frames later in the `Update` function?
-- [ ] Change script name accordingly (i.e. `SyntheticCrowdGenerator.cs`)
-- [ ] Change color distribution accordingly to Raileigh (i.e.) 75% black and blue hues
-- [ ] Get number of people and head coordinates for current camera view (**DO SCRIPT**)
-- [ ] virtualenv + packets to install in remote PC
 
 
 ---
