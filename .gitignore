@@ -5,3 +5,4 @@ Synthetic_Crowd/*
 !Synthetic_Crowd/Assets/
 Synthetic_Crowd/Assets/*
 !Synthetic_Crowd/Assets/SyntheticCrowdGenerator.cs
+!Synthetic_Crowd/Assets/CustomPrefabs
