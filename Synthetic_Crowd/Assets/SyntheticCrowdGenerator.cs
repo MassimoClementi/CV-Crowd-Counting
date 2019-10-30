@@ -70,6 +70,10 @@ public class SyntheticCrowdGenerator : MonoBehaviour{
                                              new Vector3(xToInstantiate,0,yToInstantiate),
                                              rotToInstantiate) as GameObject);
 
+                // Clothes color
+                    var personDCA = crowd[personId].GetComponent<UMA.CharacterSystem.DynamicCharacterAvatar>();
+                    personDCA.characterColors.SetColor("Shirt",Color.black);
+
                 // Quick test code: it WORKS!
                 // crowd[person_id].GetComponent<UMA.CharacterSystem.DynamicCharacterAvatar>().hide = true;
                 // DEBUG_PrintAllComponents(crowd[person_id]);
@@ -89,7 +93,7 @@ public class SyntheticCrowdGenerator : MonoBehaviour{
         }
 
         // Print true positions of the people in the 3D scene
-        PrintReferencePositions(crowd);
+        //PrintReferencePositions(crowd);
         // TODO: save in .csv file
         
 
