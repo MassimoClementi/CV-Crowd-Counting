@@ -35,9 +35,16 @@ public class SyntheticCrowdGenerator : MonoBehaviour{
     List<Color> palette_dark = new List <Color>(), palette_bright = new List <Color>(),
                 palette_hair_common = new List <Color>(), palette_hair_unusual = new List <Color>(),
                 palette_skin_color = new List <Color>();
-
+    //List<Renderer> peopleRenderer = new List <Renderer>();
+    int nCrowd = 0;
+    int nCrowd_temp = 0;
+    Camera cam;
+    Vector3 headPosition_temp;
+    float offset = (float)1;
+    List<Vector3> headPositions = new List <Vector3>();
 
     void Start(){
+
         for (int y = 0; y < yIstances; y++){
 
             InitializeColorPalettes();
@@ -93,7 +100,16 @@ public class SyntheticCrowdGenerator : MonoBehaviour{
                 // CODE HERE
 
 
-                //---
+                // Renderer for detecting people in Camera FOV
+                //    crowd[personId].AddComponent<MeshRenderer>();
+                //    peopleRenderer.Insert(personId, crowd[personId].GetComponent<MeshRenderer>());
+                
+                // Update head positions list
+                    headPosition_temp = crowd[personId].GetComponent<Transform>().position;
+                    headPosition_temp.y += offset;
+                    Debug.Log(headPosition_temp);
+                    headPositions.Insert(personId,headPosition_temp);
+
                 personId++;
              }
         }
@@ -180,6 +196,23 @@ public class SyntheticCrowdGenerator : MonoBehaviour{
 
 
     void Update(){
+        cam = Camera.main;
+        //Plane[] planes = GeometryUtility.CalculateFrustumPlanes(Camera.main);
+
+        for (int i=0; i<personId; i++){
+            /*
+            if (GeometryUtility.TestPlanesAABB(planes , peopleRenderer[i].bounds)){
+                nCrowd++;
+            }
+            */
+            Vector3 pos = cam.WorldToViewportPoint(headPositions[i]);
+            if( (pos.x >= 0 && pos.x <= 1) && (pos.y >= 0 && pos.y <= 1) && (pos.z > 0) ){
+                nCrowd++;
+            }
+        }
+        if (nCrowd != nCrowd_temp) Debug.Log(nCrowd+" people are visible");
+        nCrowd_temp = nCrowd;
+        nCrowd = 0;
     }
 
 
