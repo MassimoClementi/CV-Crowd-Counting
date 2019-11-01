@@ -2,9 +2,9 @@
 Crowd Counting - From Real to Synthetic Database
 
 ### TO-DOs:
-- [ ] Get number of people and head coordinates for current camera view (**DO SCRIPT**)
-- [ ] [LATER] Add environment elements (i.e.buildings, trees and hydrants) + reintroduce shadows in final Unity simulations
-- [ ] Check if the extracted reference coordinates are correct, need to extract them few frames later in the `Update` function?
+- [ ] Add environment elements (i.e. **buildings**, trees and hydrants) + reintroduce shadows in final Unity simulations
+- [ ] When two character get instantiated in the same place they get shifted a bit, do we need to introduce a small delay per person before extracting the head position to avoid getting a wrong value?
+- [ ] Obtain a more compact crowd and probably reduce random direction (see dataset images)
 
 
 ---
