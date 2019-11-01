@@ -2,6 +2,7 @@
     Authors: Massimo Clementi, Elisa Nicolussi Paolaz
     Date: 23 october 2019
     Project: Simulation of a crowded environment using Unity C# script
+             Retrieval of ground-truth head positions for machine learning traning
  */
 
 using System.Collections;
@@ -11,42 +12,39 @@ using UnityEngine;
 public class SyntheticCrowdGenerator : MonoBehaviour{
 
     // Define public script variables (accessible from Unity)
-    public GameObject[] PrefabsMale,PrefabsFemale,PrefabsGirl;  //specific male and female prefabs
+    public GameObject[] PrefabsMale,PrefabsFemale,PrefabsGirl;
     public int femaleToMaleRatio_100;
-    public int girlRatio_100;
     public int xIstances,yIstances;     //number of people in x and y directions
-    public float xSpacing, ySpacing;
-    public int posRand_10; //contribute of the random position
-    public int columnRand_100; //contribute of the random column displacement
-    public int rowRandCumul_100; //contribute of the random cumulative whole rows displacement
     public int rotBase, rotRange;
+
+
+    //Define private parameters
+    const float xSpacing = 0.80f, ySpacing = 0.80f;
+    const int girlRatio_100 = 15;       //Ratio "girls over females"
+    const int posRand_10 = 45;          //contribute of the random position
+    const int rowRandCumul_100 = 45;    //contribute of the random cumulative whole rows displacement
+    const int columnRand_100 = 100;     //contribute of the random column displacement
 
 
     //Define private script variables
     GameObject PrefabToUse;
     List<GameObject> crowd = new List <GameObject>();   //N.B: mandatory to initialize with 0par constructor
-    int personId = 0;
-    float xToInstantiate,yToInstantiate;
-    Quaternion rotToInstantiate;
-    System.Random rnd = new System.Random();
-    float randTemp;
-    float columnRandIndex = 0, rowRandCumulIndex = 0;
-    bool maleBool;
+    List<Vector3> headPositions = new List <Vector3>();
     List<Color> palette_dark = new List <Color>(), palette_bright = new List <Color>(),
                 palette_hair_common = new List <Color>(), palette_hair_unusual = new List <Color>(),
                 palette_skin_color = new List <Color>();
-    int nCrowd = 0;
-    int nCrowd_temp = 0;
-    Camera cam;
-    Vector3 headPosition_temp;
-    float offset = (float)1; //TODO: set properly depending on Prefab and height
-    List<Vector3> headPositions = new List <Vector3>(); //TODO: save to .txt or .csv
+    System.Random rnd = new System.Random();
+    int personId = 0, nCrowd = 0, nCrowd_temp = 0;
+    bool femaleBool,girlBool;
+
 
     void Start(){
 
-        for (int y = 0; y < yIstances; y++){
+        // Local initialization
+        float columnRandIndex = 0, rowRandCumulIndex = 0;
+        InitializeColorPalettes();
 
-            InitializeColorPalettes();
+        for (int y = 0; y < yIstances; y++){
 
             // Random components evaluation
             columnRandIndex = (float)(rnd.Next(0,columnRand_100)-columnRand_100/2)/100;
@@ -60,19 +58,20 @@ public class SyntheticCrowdGenerator : MonoBehaviour{
 
                 // Manage instantiation variables
                 //  Placement
-                    randTemp = (float)(rnd.Next(0,posRand_10)-posRand_10/2)/100;   //cast needed
-                    xToInstantiate = (x + columnRandIndex + randTemp - xIstances/2) * xSpacing;
+                    float randTemp = (float)(rnd.Next(0,posRand_10)-posRand_10/2)/100;   //cast needed
+                    float xToInstantiate = (x + columnRandIndex + randTemp - xIstances/2) * xSpacing;
                     randTemp = (float)(rnd.Next(0,posRand_10)-posRand_10/2)/100;
-                    yToInstantiate = (y + rowRandCumulIndex + randTemp - yIstances/2) * ySpacing;
+                    float yToInstantiate = (y + rowRandCumulIndex + randTemp - yIstances/2) * ySpacing;
 
                 //  Rotation
                     randTemp = (float)(rnd.Next(0,2*rotRange)-rotRange);
-                    rotToInstantiate = Quaternion.AngleAxis(rotBase+randTemp,Vector3.up);
+                    Quaternion rotToInstantiate = Quaternion.AngleAxis(rotBase+randTemp,Vector3.up);
 
                 //  Gender
-                    maleBool = rnd.Next(0,100)<femaleToMaleRatio_100;
-                    if (maleBool){
-                        if(rnd.Next(0,100)<girlRatio_100) PrefabToUse = PrefabsGirl[Random.Range(0, PrefabsGirl.Length)];
+                    femaleBool = rnd.Next(0,100)<femaleToMaleRatio_100;
+                    if (femaleBool){
+                        girlBool = rnd.Next(0,100)<girlRatio_100;
+                        if(girlBool) PrefabToUse = PrefabsGirl[Random.Range(0, PrefabsGirl.Length)];
                         else PrefabToUse = PrefabsFemale[Random.Range(0, PrefabsFemale.Length)];
                     }
                     else PrefabToUse = PrefabsMale[Random.Range(0, PrefabsMale.Length)];
@@ -90,30 +89,38 @@ public class SyntheticCrowdGenerator : MonoBehaviour{
                     SetRandColor(personColorList,"Hair",palette_hair_common,palette_hair_unusual,75);   // Hair
                     personColorList.SetColor("Skin",RandColorFromList(palette_skin_color));             // Skin color           
                     SetRandColor(personColorList,"Shirt",palette_dark,palette_bright,90);               // Shirt
-                    SetRandColor(personColorList,"Shirt2",palette_dark,palette_bright,20);               // ...
+                    SetRandColor(personColorList,"Shirt2",palette_dark,palette_bright,20);              // ...
                     SetRandColor(personColorList,"Pants1",palette_dark,palette_bright,90);              // Pants
                     SetRandColor(personColorList,"PantsAccent",palette_dark,palette_bright,30);         // ...
 
 
-                // TODO: change height and weight
-                // CODE HERE
+                // Change height and fitness
+                    float height = (float)rnd.Next(0,7)/100+0.98f;      // y from 0.98 to 1.05
+                    float fitness = (float)rnd.Next(0,3)/100+1.0f;      // z from 1 to 1.3
+                    crowd[personId].GetComponent<UnityEngine.Transform>().localScale = new Vector3(1f,height,fitness);
 
                 
                 // Update head positions list
-                    headPosition_temp = crowd[personId].GetComponent<Transform>().position;
-                    headPosition_temp.y += offset;
-                    Debug.Log(headPosition_temp);
+                    Vector3 headPosition_temp = crowd[personId].GetComponent<Transform>().position;
+
+                    // Determine gender-wise fine-tuned head base position
+                        float base_head_offset = 1.65f;  // male
+                        if (femaleBool){
+                            base_head_offset -= 0.13f;   //female
+                            if (girlBool) base_head_offset -= 0.3f;    //girl
+                        }
+                    headPosition_temp.y += (float)(float)base_head_offset * height * fitness;
                     headPositions.Insert(personId,headPosition_temp);
 
                 personId++;
              }
         }
 
-        // Print true positions of the people in the 3D scene
-        //PrintReferencePositions(crowd);
-        // TODO: save in .csv file
-        
-
+        // Show head positions
+        RenderHeadPoints();     // N.B: to see head points go into play mode,
+                                //      pause it and inspect the GameObjects
+            //TODO: export HeadPoints List to .txt or .csv
+    
     }
 
 
@@ -147,8 +154,6 @@ public class SyntheticCrowdGenerator : MonoBehaviour{
             palette_dark.Insert(3,new Color(0.38f,0f,0.05f));     // dark red
             palette_dark.Insert(4,new Color(0.02f,0.2f,0.1f));    // dark blue
 
-
-            //TODO: change these colors? Too bright?
             palette_bright.Insert(0,Color.white);
             palette_bright.Insert(1,Color.green);
             palette_bright.Insert(2,Color.yellow);
@@ -183,15 +188,18 @@ public class SyntheticCrowdGenerator : MonoBehaviour{
         }
     }
 
-    void PrintReferencePositions(List<GameObject> crowd){
-        foreach (var ps in crowd) {
-            print(ps.GetComponent<UnityEngine.Transform>().position);
+    void RenderHeadPoints(){
+        int head_counter = 0;
+        foreach (Vector3 hp in headPositions){
+            GameObject head_tmp = new GameObject("Head "+head_counter++);
+            head_tmp.GetComponent<UnityEngine.Transform>().position = hp;
         }
     }
 
 
     void Update(){
-        cam = Camera.main;
+        Camera cam = Camera.main;
+        nCrowd = 0;
         
         for (int i=0; i<personId; i++){
             Vector3 pos = cam.WorldToViewportPoint(headPositions[i]);
@@ -201,7 +209,6 @@ public class SyntheticCrowdGenerator : MonoBehaviour{
         }
         if (nCrowd != nCrowd_temp) Debug.Log(nCrowd+" people are visible"); 
         nCrowd_temp = nCrowd;
-        nCrowd = 0;
     }
 
 
