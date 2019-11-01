@@ -2,7 +2,7 @@
     Authors: Massimo Clementi, Elisa Nicolussi Paolaz
     Date: 23 october 2019
     Project: Simulation of a crowded environment using Unity C# script
-             Retrieval of ground-truth head positions for machine learning traning
+             Retrieval of ground-truth head positions for machine learning training
  */
 
 using System.Collections;
@@ -19,11 +19,11 @@ public class SyntheticCrowdGenerator : MonoBehaviour{
 
 
     //Define private parameters
-    const float xSpacing = 0.80f, ySpacing = 0.80f;
+    const float xSpacing = 0.75f, ySpacing = 0.75f;
     const int girlRatio_100 = 15;       //Ratio "girls over females"
-    const int posRand_10 = 45;          //contribute of the random position
-    const int rowRandCumul_100 = 45;    //contribute of the random cumulative whole rows displacement
-    const int columnRand_100 = 100;     //contribute of the random column displacement
+    const int posRand_10 = 35;          //contribute of the random position
+    const int rowRandCumul_100 = 35;    //contribute of the random cumulative whole rows displacement
+    const int columnRand_100 = 90;     //contribute of the random column displacement
 
 
     //Define private script variables
@@ -86,12 +86,12 @@ public class SyntheticCrowdGenerator : MonoBehaviour{
                     var personColorList = crowd[personId].GetComponent<UMA.CharacterSystem.DynamicCharacterAvatar>()
                                                     .characterColors;
                     
-                    SetRandColor(personColorList,"Hair",palette_hair_common,palette_hair_unusual,75);   // Hair
+                    SetRandColor(personColorList,"Hair",palette_hair_common,palette_hair_unusual,80);   // Hair
                     personColorList.SetColor("Skin",RandColorFromList(palette_skin_color));             // Skin color           
-                    SetRandColor(personColorList,"Shirt",palette_dark,palette_bright,90);               // Shirt
-                    SetRandColor(personColorList,"Shirt2",palette_dark,palette_bright,20);              // ...
-                    SetRandColor(personColorList,"Pants1",palette_dark,palette_bright,90);              // Pants
-                    SetRandColor(personColorList,"PantsAccent",palette_dark,palette_bright,30);         // ...
+                    SetRandColor(personColorList,"Shirt",palette_dark,palette_bright,95);               // Shirt
+                    SetRandColor(personColorList,"Shirt2",palette_dark,palette_bright,35);              // ...
+                    SetRandColor(personColorList,"Pants1",palette_dark,palette_bright,95);              // Pants
+                    SetRandColor(personColorList,"PantsAccent",palette_dark,palette_bright,35);         // ...
 
 
                 // Change height and fitness
@@ -165,18 +165,19 @@ public class SyntheticCrowdGenerator : MonoBehaviour{
             // Hair palettes
             palette_hair_common.Insert(0,new Color(0.3f,0.16f,0.05f));  // brown
             palette_hair_common.Insert(1,Color.black);
+
             palette_hair_unusual.Insert(0,new Color(0.8f,0.5f,0.25f));   // blonde
             palette_hair_unusual.Insert(1,new Color(0.5f,0.20f,0.15f));  // red
             palette_hair_unusual.Insert(2,new Color(0.5f,0.5f,0.5f));    // white
 
             //Skin palette (from white to dark)
             palette_skin_color.Insert(0,new Color(1f,0.8f,0.7f));   //repeat white
-            palette_skin_color.Insert(0,new Color(1f,0.8f,0.7f));   //... here!
-            palette_skin_color.Insert(1,new Color(0.9f,0.7f,0.6f));     //REPEAT...
-            palette_skin_color.Insert(1,new Color(0.9f,0.7f,0.6f));     //... here!
-            palette_skin_color.Insert(2,new Color(0.7f,0.4f,0.3f));
-            palette_skin_color.Insert(3,new Color(0.5f,0.4f,0.2f));
-            palette_skin_color.Insert(4,new Color(0.4f,0.3f,0.1f));
+            palette_skin_color.Insert(1,new Color(1f,0.8f,0.7f));   //... here!
+            palette_skin_color.Insert(2,new Color(0.9f,0.7f,0.6f));     //REPEAT...
+            palette_skin_color.Insert(3,new Color(0.9f,0.7f,0.6f));     //... here!
+            palette_skin_color.Insert(4,new Color(0.7f,0.4f,0.3f));
+            palette_skin_color.Insert(5,new Color(0.5f,0.4f,0.2f));
+            palette_skin_color.Insert(6,new Color(0.4f,0.3f,0.1f));
     }
 
     void DEBUG_PrintAllComponents(GameObject obj){
