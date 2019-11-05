@@ -1,6 +1,7 @@
 .DS_Store
 ResidualRegression-pytorch-master/datasets
 .vscode
+__pycache__
 Synthetic_Crowd/*
 !Synthetic_Crowd/Assets/
 Synthetic_Crowd/Assets/*
