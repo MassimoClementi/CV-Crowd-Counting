@@ -14,12 +14,12 @@ public class SyntheticCrowdGenerator : MonoBehaviour{
     // Define public script variables (accessible from Unity)
     public GameObject[] PrefabsMale,PrefabsFemale,PrefabsGirl;
     public int femaleToMaleRatio_100;
-    public int xIstances,yIstances;     //number of people in x and y directions
+    public int xIstances,zIstances;     //number of people in x and y directions
     public int rotBase, rotRange;
 
 
     //Define private parameters
-    const float xSpacing = 0.75f, ySpacing = 0.75f;
+    const float xSpacing = 0.75f, zSpacing = 0.75f;
     const int girlRatio_100 = 15;       //Ratio "girls over females"
     const int posRand_10 = 35;          //contribute of the random position
     const int rowRandCumul_100 = 35;    //contribute of the random cumulative whole rows displacement
@@ -44,7 +44,7 @@ public class SyntheticCrowdGenerator : MonoBehaviour{
         float columnRandIndex = 0, rowRandCumulIndex = 0;
         InitializeColorPalettes();
 
-        for (int y = 0; y < yIstances; y++){
+        for (int z = 0; z < zIstances; z++){
 
             // Random components evaluation
             columnRandIndex = (float)(rnd.Next(0,columnRand_100)-columnRand_100/2)/100;
@@ -61,7 +61,7 @@ public class SyntheticCrowdGenerator : MonoBehaviour{
                     float randTemp = (float)(rnd.Next(0,posRand_10)-posRand_10/2)/100;   //cast needed
                     float xToInstantiate = (x + columnRandIndex + randTemp - xIstances/2) * xSpacing;
                     randTemp = (float)(rnd.Next(0,posRand_10)-posRand_10/2)/100;
-                    float yToInstantiate = (y + rowRandCumulIndex + randTemp - yIstances/2) * ySpacing;
+                    float zToInstantiate = (z + rowRandCumulIndex + randTemp - zIstances/2) * zSpacing;
 
                 //  Rotation
                     randTemp = (float)(rnd.Next(0,2*rotRange)-rotRange);
@@ -79,7 +79,7 @@ public class SyntheticCrowdGenerator : MonoBehaviour{
                 // INSTANTIATE the person
                     crowd.Insert(personId,
                                  Instantiate(PrefabToUse,
-                                             new Vector3(xToInstantiate,0,yToInstantiate),
+                                             new Vector3(xToInstantiate,0,zToInstantiate),
                                              rotToInstantiate) as GameObject);
 
                 // Change model colors
@@ -104,12 +104,12 @@ public class SyntheticCrowdGenerator : MonoBehaviour{
                     Vector3 headPosition_temp = crowd[personId].GetComponent<Transform>().position;
 
                     // Determine gender-wise fine-tuned head base position
-                        float base_head_offset = 1.65f;  // male
+                        float base_head_offset = 1.75f;  // male
                         if (femaleBool){
                             base_head_offset -= 0.13f;   //female
                             if (girlBool) base_head_offset -= 0.3f;    //girl
                         }
-                    headPosition_temp.y += (float)(float)base_head_offset * height * fitness;
+                    headPosition_temp.y += (float)(float)base_head_offset * height;
                     headPositions.Insert(personId,headPosition_temp);
 
                 personId++;
