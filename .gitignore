@@ -1,9 +1,10 @@
 .DS_Store
-ResidualRegression-pytorch-master/datasets
 .vscode
+*.meta
 __pycache__
+ResidualRegression-pytorch-master/datasets
 Synthetic_Crowd/*
 !Synthetic_Crowd/Assets/
 Synthetic_Crowd/Assets/*
-!Synthetic_Crowd/Assets/SyntheticCrowdGenerator.cs
+!Synthetic_Crowd/Assets/Scripts
 !Synthetic_Crowd/Assets/CustomPrefabs

@@ -29,7 +29,7 @@ public class SyntheticCrowdGenerator : MonoBehaviour{
     //Define private script variables
     GameObject PrefabToUse;
     List<GameObject> crowd = new List <GameObject>();   //N.B: mandatory to initialize with 0par constructor
-    List<Vector3> headPositions = new List <Vector3>();
+    public static List<Vector3> headPositions = new List <Vector3>();
     List<Color> palette_dark = new List <Color>(), palette_bright = new List <Color>(),
                 palette_hair_common = new List <Color>(), palette_hair_unusual = new List <Color>(),
                 palette_skin_color = new List <Color>();
@@ -111,16 +111,13 @@ public class SyntheticCrowdGenerator : MonoBehaviour{
                         }
                     headPosition_temp.y += (float)(float)base_head_offset * height;
                     headPositions.Insert(personId,headPosition_temp);
-
+                   
                 personId++;
              }
         }
 
         // Show head positions
-        RenderHeadPoints();     // N.B: to see head points go into play mode,
-                                //      pause it and inspect the GameObjects
-            //TODO: export HeadPoints List to .txt or .csv
-    
+        RenderHeadPoints(); // to see head points go into play mode, pause it and inspect the GameObjects
     }
 
 
