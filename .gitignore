@@ -2,6 +2,7 @@
 .vscode
 *.meta
 __pycache__
+CODE/Sample_images
 ResidualRegression-pytorch-master/datasets
 Synthetic_Crowd/*
 !Synthetic_Crowd/Assets/
