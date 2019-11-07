@@ -2,10 +2,8 @@
 Crowd Counting - From Real to Synthetic Database
 
 ### TO-DOs:
-- [ ] Print h5 files and see if it contains head positions (x,y) or overall number of peoples
-- [ ] Transform the headpoints in the camera image plane
-- [ ] Instantiate a crowd with an average number of people (i.e 100,200,500) and see if overall the net works accordingly
-- [ ] When two character get instantiated in the same place they get shifted a bit, do we need to introduce a small delay per person before extracting the head position to avoid getting a wrong value?
+- [ ] Set up json files
+- [ ] Prepare crowds with an average number of people (i.e 100,200,500) and see if overall the net works accordingly
 
 
 ---
