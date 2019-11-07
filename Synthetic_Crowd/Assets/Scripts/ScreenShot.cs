@@ -37,15 +37,14 @@ using UnityEngine;
 
             // Save head positions
             int size = SyntheticCrowdGenerator.headPositions.Count;
-            int scaling = 100;
             string fn = "Savings/Positions/pos_"+System.DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")+".txt";
             
             for(int i=0; i<size; i++){
                 Vector3 pos = GetComponent<Camera>().WorldToViewportPoint(SyntheticCrowdGenerator.headPositions[i]);
                 if( (pos.x >= 0 && pos.x <= 1) && (pos.y >= 0 && pos.y <= 1) && (pos.z > 0) ){
                     SavePosition.Save(fn, 
-                                    ((int)(pos.x*scaling)).ToString()+" "+
-                                    ((int)(pos.y*scaling)).ToString()+"\n");
+                                    ((int)(pos.x*resWidth)).ToString()+" "+
+                                    ((int)(pos.y*resHeight)).ToString()+"\n");
                 }
             }
             Debug.Log("Saved head positions");
