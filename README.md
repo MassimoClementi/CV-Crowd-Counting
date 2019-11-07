@@ -74,4 +74,6 @@ Automatic login via SSH keys:
 Virtualenv guide
 > https://virtualenv.pypa.io/en/latest/userguide/#usage
 
+AWK and format printing
+> https://stackoverflow.com/questions/14517930/print-a-comma-except-on-the-last-line-in-awk
 
