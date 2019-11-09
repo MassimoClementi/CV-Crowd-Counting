@@ -2,10 +2,10 @@
 From Real to Synthetic Database
 
 ## How to configure
-Open the `Residual Regression` folder in a terminal window.
+Open `ResidualRegression-pytorch-master` folder in a terminal window.
 
 Activate the virtual environment using the following command:
-> `source venv/bin/activate.sh`
+> `source venv/bin/activate`
 
 Configure the synthetic database running the bash command `source configure.sh`. In particular, this script:
 - generates proper JSON of the test set in the `datasets/SyntheticCrowd` folder
@@ -15,7 +15,7 @@ Configure the synthetic database running the bash command `source configure.sh`.
 Run `test.py` with python2, specifying the json to load:
 > `python test.py --test_json synthetic_database.json`
 
-The modified version of `test.py` in this repository also prints the number of heads in the ground-truth density map and the estimated one.
+The modified version of `test.py` in this repository also prints the number of heads evaluated on the ground-truth density map and on the map estimated by the network, this to give a more understandable view of the accuracy of the system on non-conventional datasets.
 
 ## TO-DOs:
 - [ ] Prepare a dataset with variable crowd size: 50, 100, 200, 300, 500, 1000 people
