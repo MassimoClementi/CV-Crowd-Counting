@@ -84,6 +84,14 @@ def validate(val_list, counter, residual):
         
         final_output = torch.mul(final_output, smap)
 
+       #CUSTOM: count number of people from ground density map
+        groundtruth_density_map = target.cpu().detach().numpy().squeeze()
+        estimated_density_map = final_output.cpu().detach().numpy().squeeze()
+        print("Ground-truth / estimated heads: {:6.0f} {:6.0f}"\
+                .format(np.sum(groundtruth_density_map,axis=(0,1)),\
+                        np.sum(estimated_density_map,axis=(0,1))))
+        # ----------------------------------------------------
+
         app_mae += abs(output[0].data.sum()-target.sum().type(torch.FloatTensor).cuda())
         res_mae += abs(final_residual.data.sum()-target.sum().type(torch.FloatTensor).cuda())
         final_mae += abs(final_output.data.sum()-target.sum().type(torch.FloatTensor).cuda())

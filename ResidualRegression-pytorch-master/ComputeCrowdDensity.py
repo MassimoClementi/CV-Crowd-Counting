@@ -39,7 +39,7 @@ for path in paths:
     image_size = plt.imread(path).shape
 
     # Open txt reference head file
-    txt_path = path.replace('.png', '.txt').replace('images', 'ground-truth')
+    txt_path = path.replace('.jpg', '.txt').replace('images', 'ground-truth')
     data_file = open(txt_path,"r")
 
     # Setting up variables
@@ -88,12 +88,17 @@ for path in paths:
             np.sum(final_density_map,axis=(0,1)),"\n")
 
     # Save final density map to .h5 dataset
-    h5_path = path.replace('.png', '.h5').replace('images', 'ground-truth')
+    h5_path = path.replace('.jpg', '.h5').replace('images', 'ground-truth')
     outh5 = h5py.File(h5_path,"w")
     dataset = outh5.create_dataset('density',\
                 data=np.flip(final_density_map,axis=(0,1)))
 
-    #TODO: generate and save (fake) semantic map
+    #Generate and save semantic map
+    semantic_map = np.ones(final_density_map.shape) #TODO: proper semantic map creation
+    h5_mask_path = path.replace('.jpg', '_mask.h5').replace('images', 'ground-truth')
+    outh5_mask = h5py.File(h5_mask_path,"w")
+    dataset_mask = outh5_mask.create_dataset('density',\
+                    data=np.flip(semantic_map,axis=(0,1)))
 
     # Plotting and visualization
     if enable_plot_flag==1:
