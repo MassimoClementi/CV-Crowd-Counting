@@ -2,7 +2,12 @@
 From Real to Synthetic Database
 
 ## How to configure
-Simply run the bash command `source configure.sh` in the Residual Regression folder. The script:
+Open the `Residual Regression` folder in a terminal window.
+
+Activate the virtual environment using the following command:
+> `source venv/bin/activate.sh`
+
+Configure the synthetic database running the bash command `source configure.sh`. In particular, this script:
 - generates proper JSON of the test set in the `datasets/SyntheticCrowd` folder
 - load the test images and obtains the crowd density maps, accordingly to the "Image Crowd Counting" paper
 
@@ -10,7 +15,7 @@ Simply run the bash command `source configure.sh` in the Residual Regression fol
 Run `test.py` with python2, specifying the json to load:
 > `python test.py --test_json synthetic_database.json`
 
-The modified version of `test.py` in this repository also prints the number of heads in the ground-truth density map and th estimated one.
+The modified version of `test.py` in this repository also prints the number of heads in the ground-truth density map and the estimated one.
 
 ## TO-DOs:
 - [ ] Prepare a dataset with variable crowd size: 50, 100, 200, 300, 500, 1000 people
