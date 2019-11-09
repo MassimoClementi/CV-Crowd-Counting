@@ -6,7 +6,7 @@ folder="./datasets/SyntheticCrowd/images/"
 output="synthetic_database.json"
 
 echo
-echo -- JSON GENERATOR --
+echo == JSON GENERATOR ==
 echo Parsing $folder
 
 ls $folder > temp.txt
