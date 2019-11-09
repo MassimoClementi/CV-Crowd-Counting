@@ -1,13 +1,24 @@
 # CV-Crowd-Counting
-Crowd Counting - From Real to Synthetic Database
+From Real to Synthetic Database
 
-### TO-DOs:
-- [ ] Set up json files
-- [ ] Prepare crowds with an average number of people (i.e 100,200,500) and see if overall the net works accordingly
+## How to configure
+Simply run the bash command `source configure.sh` in the Residual Regression folder. The script:
+- generates proper JSON of the test set in the `datasets/SyntheticCrowd` folder
+- load the test images and obtains the crowd density maps, accordingly to the "Image Crowd Counting" paper
 
+## How to run
+Run `test.py` with python2, specifying the json to load:
+> `python test.py --test_json synthetic_database.json`
+
+The modified version of `test.py` in this repository also prints the number of heads in the ground-truth density map and th estimated one.
+
+## TO-DOs:
+- [ ] Prepare a dataset with variable crowd size: 50, 100, 200, 300, 500, 1000 people
 
 ---
-## Paper and code
+
+## Documentation, guides and useful knowledge
+### Paper and code
 Read the following paper as reference, understand how it works, try to run it and understand what kind of input data does it need (characterize the dataset)
 > http://visal.cs.cityu.edu.hk/research/residual_regression_counting/
 
@@ -23,9 +34,8 @@ To make it run
 
 **N.B:** Use "Colab" by Google to run the simulations, if needed
 
----
 
-## Unity and UMA
+### Unity and UMA
 Install `Unity` (recommended version `2018.4`) and learn C#
 > https://unity.com
 > https://learn.unity.com/course/getting-started-with-unity
@@ -48,9 +58,8 @@ Useful guide to successful create lists of GameObjects
 Give a look to a complete project if we need some particular snippet of code
 > https://github.com/albertoxamin/HeterogenousCameraNetwork
 
----
 
-## SSH to remote Ubuntu machine
+### SSH to remote Ubuntu machine
 > IP: 192.168.165.4
 
 > user: massimoclementi
@@ -68,9 +77,8 @@ Automatic login via SSH keys:
 - copy the key on the remote machine: `ssh-copy-id userid@hostname`
 - now you can login without password
 
----
 
-## Virtualenv and running
+### Virtualenv and running
 Virtualenv guide
 > https://virtualenv.pypa.io/en/latest/userguide/#usage
 
