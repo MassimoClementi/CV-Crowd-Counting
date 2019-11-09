@@ -17,7 +17,7 @@ awk 'BEGIN{
 	folder="./datasets/SyntheticCrowd/images/"
 	}{
 	printf "%s\"%s%s\"",t,folder,$0;
-	t=","
+	t=", "
 	} END {
 	ORS="";
 	print "]";	
