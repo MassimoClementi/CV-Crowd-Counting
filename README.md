@@ -17,9 +17,6 @@ Run `test.py` with python2, specifying the json to load:
 
 The modified version of `test.py` in this repository also prints the number of heads evaluated on the ground-truth density map and on the map estimated by the network, this to give a more understandable view of the accuracy of the system on non-conventional datasets.
 
-## TO-DOs:
-- [ ] Prepare a dataset with variable crowd size: 50, 100, 200, 300, 500, 1000 people
-
 ---
 
 ## Documentation, guides and useful knowledge
