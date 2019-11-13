@@ -1,11 +1,11 @@
 .DS_Store
 .vscode
-*.meta
-__pycache__
-CODE/Sample_images
-ResidualRegression-pytorch-master/datasets
+Counting-ICCV-DSSINet/*.pyc
+Counting-ICCV-DSSINet/*/*.pyc
 Synthetic_Crowd/*
 !Synthetic_Crowd/Assets/
 Synthetic_Crowd/Assets/*
 !Synthetic_Crowd/Assets/Scripts
 !Synthetic_Crowd/Assets/CustomPrefabs
+Synthetic_Crowd/Assets/CustomPrefabs/*.meta
+Synthetic_Crowd/Assets/Scripts/*.meta

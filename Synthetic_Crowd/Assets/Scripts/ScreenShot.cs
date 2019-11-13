@@ -31,13 +31,13 @@ using System.Text;
         RenderTexture.active = null;
         Destroy(rt);
 
-        // Get updated filename and save
+        // Get updated filename and save screenshot
         byte[] bytes = screenShot.EncodeToJPG(); 
         string stub = Application.dataPath+"/Savings/Screenshots/IMG_";
         string filename = IndexedFilename(stub,"jpg");
         System.IO.File.WriteAllBytes(filename, bytes);
 
-        Debug.Log(string.Format("Took screenshot to: {0}", filename));
+        Debug.Log(string.Format("{0} took screenshot", cam.name));
 
         // Save head positions
         int size = SyntheticCrowdGenerator.headPositions.Count;
@@ -52,7 +52,7 @@ using System.Text;
                     ((int)(pos.y*cam.pixelHeight)).ToString()+"\n");
             }
         }
-        Debug.Log("Saved head positions");
+        Debug.Log("(Saved head positions)");
     }
   
     void LateUpdate() {

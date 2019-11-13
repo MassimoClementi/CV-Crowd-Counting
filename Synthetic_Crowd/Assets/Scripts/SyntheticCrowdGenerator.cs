@@ -10,17 +10,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public struct CameraFeatures{
-    public Vector3 position;
-    public Quaternion rotation;
-    public CameraFeatures(float px, float py, float pz, float rx, float ry, float rz){
-        position.x = px;
-        position.y = py;
-        position.z = pz;
-        rotation = Quaternion.Euler(rx,ry,rz);
-    }
-}
-
 public class SyntheticCrowdGenerator : MonoBehaviour{
 
     // Define public script variables (accessible from Unity)
@@ -36,6 +25,7 @@ public class SyntheticCrowdGenerator : MonoBehaviour{
     const int posRand_10 = 35;          //contribute of the random position
     const int rowRandCumul_100 = 35;    //contribute of the random cumulative whole rows displacement
     const int columnRand_100 = 90;     //contribute of the random column displacement
+    const int nCameras = 4; //number of cameras taking screenshots
 
 
     //Define private script variables
@@ -46,11 +36,12 @@ public class SyntheticCrowdGenerator : MonoBehaviour{
                 palette_hair_common = new List <Color>(), palette_hair_unusual = new List <Color>(),
                 palette_skin_color = new List <Color>();
     System.Random rnd = new System.Random();
-    int personId = 0, nCrowd = 0, nCrowd_temp = 0;
+    int personId = 0;
+    int nCrowd = 0; //number of people in current camera FOV
+    int[] nCrowdPrev = new int[nCameras]; //number of people in previous frame for each camera 
     bool femaleBool,girlBool;
-    int[] crowdDensity = new int[] {50, 81, 100, 150, 200, 250}; //, 300, 400, 500, 800, 1000};
-    CameraFeatures[] cameras = new CameraFeatures[4];
-    int crowdDensityPos = 0, camerasPos = 0;
+    int[] crowdDensity = new int[] {100, 150}; //200, 250, 300, 400}; //number of people in each crowd to generate
+    Camera[] cameras = new Camera[nCameras]; 
 
 
     void Generate(){
@@ -204,22 +195,22 @@ public class SyntheticCrowdGenerator : MonoBehaviour{
         }
     }
 
-    void InitializeCameraFeature(){
-        cameras[0] = new CameraFeatures(0.0f,6.0f,4.0f,50.0f,180.0f,0.0f);
-        cameras[1] = new CameraFeatures(-6.0f,2.0f,0.0f,0.0f,90.0f,0.0f);
-        cameras[2] = new CameraFeatures(0.0f,3.0f,5.0f,20.0f,180.0f,0.0f);
-        cameras[3] = new CameraFeatures(-3.0f,2.5f,5.0f,20.0f,135.0f,0.0f);
+    void InitializeCameraList(){
+        cameras[0] = GameObject.Find("Camera1").GetComponent<Camera>();
+        cameras[1] = GameObject.Find("Camera2").GetComponent<Camera>();
+        cameras[2] = GameObject.Find("Camera3").GetComponent<Camera>();
+        cameras[3] = GameObject.Find("Camera4").GetComponent<Camera>();
     }
 
     IEnumerator ManagerGenerator(){
-        Camera cam = Camera.main;
-        InitializeCameraFeature();
+        InitializeCameraList();
+        int crowdDensityPos = 0;
 
         while (crowdDensityPos < crowdDensity.Length){
             // Destroy previous crowd (if existing)
             if(crowd.Count != 0){
-                for(int k=0; k<crowd.Count; k++){
-                    Destroy(crowd[k]);
+                foreach(GameObject person in crowd){
+                    Destroy(person);
                 }
             }
             crowd.Clear();
@@ -234,43 +225,43 @@ public class SyntheticCrowdGenerator : MonoBehaviour{
                 xIstances = 10;
                 zIstances = (int)(crowdDensity[crowdDensityPos]/10);
             }
+
+            // Generate crowd
             Generate();
 
-            // Set camera
-            cam.transform.position = cameras[camerasPos].position;
-            cam.transform.rotation = cameras[camerasPos].rotation;
+            yield return new WaitForSeconds(20.0f);
+            // Take screenshot with each camera
+            foreach(Camera cam in cameras){
+                ScreenShot.TakeScreenshot(cam);
+            }
 
-            yield return new WaitForSeconds(10.0f);
-            // Take screenshot
-            ScreenShot.TakeScreenshot(cam);
-
-            if (camerasPos == cameras.Length-1) crowdDensityPos++;
-            camerasPos = (camerasPos+1) % cameras.Length;
+            crowdDensityPos++;
         }
     }
     
     void Update(){
-        Camera cam = Camera.main;
-
         // Count number of people in camera FOV
-        nCrowd = 0;
-        for (int i=0; i<personId; i++){
-            Vector3 pos = cam.WorldToViewportPoint(headPositions[i]);
-            if( (pos.x >= 0 && pos.x <= 1) && (pos.y >= 0 && pos.y <= 1) && (pos.z > 0) ){
-                nCrowd++;
+        for(int c=0; c<cameras.Length; c++){
+            nCrowd = 0;
+            for (int i=0; i<crowd.Count; i++){
+                Vector3 pos = cameras[c].WorldToViewportPoint(headPositions[i]);
+                if( (pos.x >= 0 && pos.x <= 1) && (pos.y >= 0 && pos.y <= 1) && (pos.z > 0) ){
+                    nCrowd++;
+                }
             }
+            if (nCrowd != nCrowdPrev[c]) Debug.Log(cameras[c].name+": "+nCrowd+" people are visible"); 
+            nCrowdPrev[c] = nCrowd;
         }
-        if (nCrowd != nCrowd_temp) Debug.Log(nCrowd+" people are visible"); 
-        nCrowd_temp = nCrowd;
 
         // Destroy previous crowd (if existing) and create a new one
         if (Input.GetKeyDown("n")) {
             if(crowd.Count != 0){
-                for(int i=0; i<crowd.Count; i++){
-                    Destroy(crowd[i]);
+                foreach(GameObject person in crowd){
+                    Destroy(person);
                 }
             }
-            crowd.Clear();            
+            crowd.Clear();
+            headPositions.Clear();
             Generate();
         }
 
