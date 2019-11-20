@@ -8,7 +8,7 @@ Activate the virtual environment using the following command:
 > `source ../crowdCountingEnv/bin/activate`
 
 ## How to run
-Look at the GPU usages with the command `nvdia-smi`
+Look at the GPU usages with the command `nvidia-smi`
 
 ### Train
 Run the following command with the appropriate CUDA_VISIBLE_DEVICES value:
