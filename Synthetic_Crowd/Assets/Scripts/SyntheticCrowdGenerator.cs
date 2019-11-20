@@ -25,7 +25,7 @@ public class SyntheticCrowdGenerator : MonoBehaviour{
     const int posRand_10 = 35;          //contribute of the random position
     const int rowRandCumul_100 = 35;    //contribute of the random cumulative whole rows displacement
     const int columnRand_100 = 90;     //contribute of the random column displacement
-    const int nCameras = 4; //number of cameras taking screenshots
+    const int nCameras = 8; //number of cameras taking screenshots
 
 
     //Define private script variables
@@ -40,7 +40,7 @@ public class SyntheticCrowdGenerator : MonoBehaviour{
     int nCrowd = 0; //number of people in current camera FOV
     int[] nCrowdPrev = new int[nCameras]; //number of people in previous frame for each camera 
     bool femaleBool,girlBool;
-    int[] crowdDensity = new int[] {100, 150}; //200, 250, 300, 400}; //number of people in each crowd to generate
+    int[] crowdDensity = new int[] {250, 300, 350}; //number of people in each crowd to generate
     Camera[] cameras = new Camera[nCameras]; 
 
 
@@ -200,6 +200,10 @@ public class SyntheticCrowdGenerator : MonoBehaviour{
         cameras[1] = GameObject.Find("Camera2").GetComponent<Camera>();
         cameras[2] = GameObject.Find("Camera3").GetComponent<Camera>();
         cameras[3] = GameObject.Find("Camera4").GetComponent<Camera>();
+        cameras[4] = GameObject.Find("Camera1hd").GetComponent<Camera>();
+        cameras[5] = GameObject.Find("Camera2hd").GetComponent<Camera>();
+        cameras[6] = GameObject.Find("Camera3hd").GetComponent<Camera>();
+        cameras[7] = GameObject.Find("Camera4hd").GetComponent<Camera>();
     }
 
     IEnumerator ManagerGenerator(){
@@ -229,7 +233,7 @@ public class SyntheticCrowdGenerator : MonoBehaviour{
             // Generate crowd
             Generate();
 
-            yield return new WaitForSeconds(20.0f);
+            yield return new WaitForSeconds(30.0f);
             // Take screenshot with each camera
             foreach(Camera cam in cameras){
                 ScreenShot.TakeScreenshot(cam);
@@ -240,6 +244,7 @@ public class SyntheticCrowdGenerator : MonoBehaviour{
     }
     
     void Update(){
+        InitializeCameraList();
         // Count number of people in camera FOV
         for(int c=0; c<cameras.Length; c++){
             nCrowd = 0;
