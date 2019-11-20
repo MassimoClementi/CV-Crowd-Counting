@@ -89,9 +89,7 @@ class _Conv2d_dilated(_ConvNd):
         kernel_size = _pair(kernel_size)
         stride = _pair(stride)
         dilation = _pair(dilation)
-        super(_Conv2d_dilated, self).__init__(
-            in_channels, out_channels, kernel_size, stride, _pair(0), dilation,
-            False, _pair(0), groups, bias)
+        super(_Conv2d_dilated, self).__init__(in_channels, out_channels, kernel_size, stride, _pair(0), dilation,False, _pair(0), groups, bias,0)
 
     def forward(self, input, dilation=None):
         input_shape = list(input.size())

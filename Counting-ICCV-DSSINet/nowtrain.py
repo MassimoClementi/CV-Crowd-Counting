@@ -176,8 +176,8 @@ if __name__ == '__main__':
 
         duration = outer_timer.toc(average=False)
         logging.info("epoch {}: {} seconds; Path: {}".format(epoch, duration, opt.expr_dir))
-        logging.info("load/iter/cuda: {} vs {} vs {} seconds; iter: {}".format(load_time, iter_time, net.cudaTimer.tot_time, net.cudaTimer.calls))
-        net.cudaTimer.tot_time = 0
+#        logging.info("load/iter/cuda: {} vs {} vs {} seconds; iter: {}".format(load_time, iter_time, #net.cudaTimer.tot_time, net.cudaTimer.calls))
+#        net.cudaTimer.tot_time = 0
 
 
         save_name = os.path.join(opt.expr_dir, '%06d.h5' % epoch)

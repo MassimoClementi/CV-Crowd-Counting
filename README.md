@@ -2,20 +2,20 @@
 From Real to Synthetic Database
 
 ## How to configure
-Open `ResidualRegression-pytorch-master` folder in a terminal window.
+Open `Counting-ICCV-DSSINet` folder in a terminal window.
 
 Activate the virtual environment using the following command:
-> `source venv/bin/activate`
-
-Configure the synthetic database running the bash command `source configure.sh`. In particular, this script:
-- generates proper JSON of the test set in the `datasets/SyntheticCrowd` folder
-- load the test images and obtains the crowd density maps, accordingly to the "Image Crowd Counting" paper
+> `source ../crowdCountingEnv/bin/activate`
 
 ## How to run
-Run `test.py` with python2, specifying the json to load:
-> `python test.py --test_json synthetic_database.json`
+Look at the GPU usages with the command `nvdia-smi`
 
-The modified version of `test.py` in this repository also prints the number of heads evaluated on the ground-truth density map and on the map estimated by the network, this to give a more understandable view of the accuracy of the system on non-conventional datasets.
+### Train
+Run the following command with the appropriate CUDA_VISIBLE_DEVICES value:
+> `CUDA_VISIBLE_DEVICES=0 python -u nowtrain.py --model CRFVGG_prune --dataset shanghaiA --no-save --no-visual --save_interval 2000 --no-preload --batch_size 12 --loss NORMMSSSIM --lr 0.00001 --gpus 0 --epochs 300`
+
+### Test
+To implement...
 
 ---
 
@@ -83,6 +83,9 @@ Automatic login via SSH keys:
 ### Virtualenv and running
 Virtualenv guide
 > https://virtualenv.pypa.io/en/latest/userguide/#usage
+
+Moving virtualenv and creating requirements.txt
+> https://stackoverflow.com/questions/6628476/renaming-a-virtualenv-folder-without-breaking-it
 
 AWK and format printing
 > https://stackoverflow.com/questions/14517930/print-a-comma-except-on-the-last-line-in-awk
