@@ -4,18 +4,27 @@ From Real to Synthetic Database
 ## How to configure
 Open `Counting-ICCV-DSSINet` folder in a terminal window.
 
-Activate the virtual environment using the following command:
-> `source ../crowdCountingEnv/bin/activate`
+### Configure the virtual environment
+- make a new virtualenv:
+	> `virtualenv <name>`
+- activate the virtualenv:
+	> `source <name>/bin/activate`
+- install all the packages from the `requirements.txt` file:
+	> `pip install -r requirements.txt`
+- install CUDA packages:
+	> `pip install torch==1.3.1+cu92 torchvision==0.4.2+cu92 -f https://download.pytorch.org/whl/torch_stable.html` 
+
+### Activate the virtual environment:
+> `source <name>/bin/activate`
 
 ## How to run
 Look at the GPU usages with the command `nvidia-smi`
 
-### Train
-Run the following command with the appropriate CUDA_VISIBLE_DEVICES value:
-> `CUDA_VISIBLE_DEVICES=0 python -u nowtrain.py --model CRFVGG_prune --dataset shanghaiA --no-save --no-visual --save_interval 2000 --no-preload --batch_size 12 --loss NORMMSSSIM --lr 0.00001 --gpus 0 --epochs 300`
+### Training phase
+Run the command `nohup ./train.sh &`
 
-### Test
-To implement...
+### Testing phase
+Run the command `./test.sh ./saved_models/<dir_name>/<epoch>.h5`
 
 ---
 

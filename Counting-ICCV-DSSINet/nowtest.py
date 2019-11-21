@@ -1,6 +1,5 @@
 import os
 import cv2
-import debug
 import torch
 import numpy as np
 from src.crowd_counting import CrowdCounter
