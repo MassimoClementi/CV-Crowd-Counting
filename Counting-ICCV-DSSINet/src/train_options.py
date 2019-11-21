@@ -101,7 +101,6 @@ class TrainOptions():
         dataset_name = opt.dataset #dataset name - used for saving model file
         exp = 'v7-{}-{}-{}/'.format(dataset_name, model, datetime.now().strftime('exp-%m-%d_%H-%M'))
         expr_dir = './saved_models/{}/'.format(exp) #model files are saved here
-	    expr_dir = '/home/massimoclementi/Counting-ICCV-DSSINet/temp1'
 
         opt.crop_size = map(int, opt.crop_size.split('x'))
 
@@ -110,9 +109,9 @@ class TrainOptions():
             os.mkdir(expr_dir+'./sup/')
 
         else:
-            expr_dir = '/home/massimoclementi/Counting-ICCV-DSSINet/temp1'
-            if not os.path.exists(expr_dir+'/sup/'):
-                os.mkdir(expr_dir+'/sup/')
+            os.mkdir(expr_dir)
+            if not os.path.exists(expr_dir+'./sup/'):
+                os.mkdir(expr_dir+'./sup/')
 
         opt.expr_dir = expr_dir
 
