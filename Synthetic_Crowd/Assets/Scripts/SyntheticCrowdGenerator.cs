@@ -26,6 +26,7 @@ public class SyntheticCrowdGenerator : MonoBehaviour{
     const int rowRandCumul_100 = 35;    //contribute of the random cumulative whole rows displacement
     const int columnRand_100 = 90;     //contribute of the random column displacement
     const int nCameras = 8; //number of cameras taking screenshots
+    const int presenceRand = 60; //randomicity (out of 100) whether a person is created or not 
 
 
     //Define private script variables
@@ -40,7 +41,7 @@ public class SyntheticCrowdGenerator : MonoBehaviour{
     int nCrowd = 0; //number of people in current camera FOV
     int[] nCrowdPrev = new int[nCameras]; //number of people in previous frame for each camera 
     bool femaleBool,girlBool;
-    int[] crowdDensity = new int[] {250, 300, 350}; //number of people in each crowd to generate
+    int[] crowdDensity = new int[] {50}; //number of people in each crowd to generate
     Camera[] cameras = new Camera[nCameras]; 
 
 
@@ -57,19 +58,20 @@ public class SyntheticCrowdGenerator : MonoBehaviour{
             rowRandCumulIndex += (float)(rnd.Next(0,rowRandCumul_100))/100;
 
              for (int x = 0; x < xIstances; x++){
-
-                // Manage instantiation variables
-                //  Placement
+                
+                if(rnd.Next(0,100)<presenceRand){
+                    // Manage instantiation variables
+                    //  Placement
                     float randTemp = (float)(rnd.Next(0,posRand_10)-posRand_10/2)/100;   //cast needed
                     float xToInstantiate = (x + columnRandIndex + randTemp - xIstances/2) * xSpacing;
                     randTemp = (float)(rnd.Next(0,posRand_10)-posRand_10/2)/100;
                     float zToInstantiate = (z + rowRandCumulIndex + randTemp - zIstances/2) * zSpacing;
 
-                //  Rotation
+                    //  Rotation
                     randTemp = (float)(rnd.Next(0,2*rotRange)-rotRange);
                     Quaternion rotToInstantiate = Quaternion.AngleAxis(rotBase+randTemp,Vector3.up);
 
-                //  Gender
+                    //  Gender
                     femaleBool = rnd.Next(0,100)<femaleToMaleRatio_100;
                     if (femaleBool){
                         girlBool = rnd.Next(0,100)<girlRatio_100;
@@ -78,13 +80,13 @@ public class SyntheticCrowdGenerator : MonoBehaviour{
                     }
                     else PrefabToUse = PrefabsMale[UnityEngine.Random.Range(0, PrefabsMale.Length)];
 
-                // INSTANTIATE the person
+                    // INSTANTIATE the person
                     crowd.Insert(personId,
                                  Instantiate(PrefabToUse,
                                              new Vector3(xToInstantiate,0,zToInstantiate),
                                              rotToInstantiate) as GameObject);
 
-                // Change model colors
+                    // Change model colors
                     var personColorList = crowd[personId].GetComponent<UMA.CharacterSystem.DynamicCharacterAvatar>()
                                                     .characterColors;
                     
@@ -96,13 +98,13 @@ public class SyntheticCrowdGenerator : MonoBehaviour{
                     SetRandColor(personColorList,"PantsAccent",palette_dark,palette_bright,35);         // ...
 
 
-                // Change height and fitness
+                    // Change height and fitness
                     float height = (float)rnd.Next(0,7)/100+0.98f;      // y from 0.98 to 1.05
                     float fitness = (float)rnd.Next(0,3)/100+1.0f;      // z from 1 to 1.3
                     crowd[personId].GetComponent<UnityEngine.Transform>().localScale = new Vector3(1f,height,fitness);
 
                 
-                // Update head positions list
+                    // Update head positions list
                     Vector3 headPosition_temp = crowd[personId].GetComponent<Transform>().position;
 
                     // Determine gender-wise fine-tuned head base position
@@ -114,8 +116,9 @@ public class SyntheticCrowdGenerator : MonoBehaviour{
                     headPosition_temp.y += (float)(float)base_head_offset * height;
                     headPositions.Insert(personId,headPosition_temp);
                    
-                personId++;
-             }
+                    personId++;
+                }
+            }
         }
 
         // Show head positions
@@ -268,6 +271,12 @@ public class SyntheticCrowdGenerator : MonoBehaviour{
             crowd.Clear();
             headPositions.Clear();
             Generate();
+        }
+        // Take screenshot with each camera
+        if (Input.GetKeyDown("s")) {
+            foreach(Camera cam in cameras){
+                ScreenShot.TakeScreenshot(cam);
+            }
         }
 
         // Autonomously generate and save dataset 
