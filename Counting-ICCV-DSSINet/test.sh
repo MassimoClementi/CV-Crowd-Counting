@@ -10,5 +10,5 @@ CUDA_VISIBLE_DEVICES=0 python -u nowtest.py \
 	--no-save \
 	--gpus 0\
 	--test_batch_size 1 \
-	--epoch 300 \
+	--epoch 900 \
 	--model_path $1 

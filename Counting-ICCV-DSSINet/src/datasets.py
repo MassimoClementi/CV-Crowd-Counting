@@ -2,7 +2,7 @@ import socket
 
 
 hostname = socket.gethostname()
-SHANG_PATH = '/home/massimoclementi/Counting-ICCV-DSSINet/ShanghaiTech'
+SHANG_PATH = '/home/massimoclementi/CV-Crowd-Counting/Counting-ICCV-DSSINet/ShanghaiTech'
 UCFEC_PATH = ''
 WORLD_PATH = ''
 TRANCOS_PATH = ''

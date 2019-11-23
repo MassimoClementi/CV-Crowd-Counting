@@ -2,6 +2,10 @@
 .vscode
 Counting-ICCV-DSSINet/*.pyc
 Counting-ICCV-DSSINet/*/*.pyc
+Counting-ICCV-DSSINet/._*
+Counting-ICCV-DSSINet/saved_models
+Counting-ICCV-DSSINet/ShanghaiTech
+Counting-ICCV-DSSINet/src/._*
 Synthetic_Crowd/*
 !Synthetic_Crowd/Assets/
 Synthetic_Crowd/Assets/*
