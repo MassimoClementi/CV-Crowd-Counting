@@ -1,4 +1,4 @@
-pathgt = 'ground_truth';
+pathgt = 'ground_truth_txt';
 gts = dir([pathgt filesep '*.txt']);
 ngts = length(gts);
 
@@ -33,6 +33,6 @@ for i = 1:ngts
     name = gts(i).name;
     name = strsplit(name,'.');
     name = name{1,1};
-    filename = strcat(pathgt,'/GT_',name,'.mat');
+    filename = strcat('ground_truth/GT_',name,'.mat');
     save(filename,'image_info');
 end
