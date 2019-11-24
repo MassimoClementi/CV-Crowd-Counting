@@ -2,7 +2,8 @@ import socket
 
 
 hostname = socket.gethostname()
-SHANG_PATH = '/home/massimoclementi/CV-Crowd-Counting/Counting-ICCV-DSSINet/ShanghaiTech'
+SHANG_PATH = 'ShanghaiTech'
+SYNTHETIC_PATH = '../SyntheticDataset'
 UCFEC_PATH = ''
 WORLD_PATH = ''
 TRANCOS_PATH = ''
@@ -31,6 +32,21 @@ datasets = {
         "train_label_path": SHANG_PATH + '/part_B_final/train_data/ground_truth',
         "test_image_path": SHANG_PATH + '/part_B_final/test_data/images/',
         "test_label_path": SHANG_PATH + '/part_B_final/test_data/ground_truth',
+        "train_val_split": (lambda x:x, lambda x:x[:29]),
+        "annReadFunc": lambda x: x['image_info'][0][0][0][0][0],
+        "mean_std": [96.3414, 66.8793],
+        "annReadFuncTest": None
+    },
+
+    'syntheticDataset': {
+        "density_method": "adaptive",
+        "density_method_config": {'downsize':32},
+
+        #TODO: separated train and test folders
+        "train_image_path": SYNTHETIC_PATH + 'none',   #TODO!
+        "train_label_path": SYNTHETIC_PATH + 'none',   #TODO!
+        "test_image_path": SYNTHETIC_PATH + '/test_data/images',
+        "test_label_path": SYNTHETIC_PATH + '/test_data/ground_truth',
         "train_val_split": (lambda x:x, lambda x:x[:29]),
         "annReadFunc": lambda x: x['image_info'][0][0][0][0][0],
         "mean_std": [96.3414, 66.8793],

@@ -99,7 +99,7 @@ class TrainOptions():
 
         model = opt.model_name
         dataset_name = opt.dataset #dataset name - used for saving model file
-        exp = 'v7-{}-{}-{}/'.format(dataset_name, model, datetime.now().strftime('exp-%m-%d_%H-%M'))
+        exp = 'v7-{}-{}-{}'.format(dataset_name, model, datetime.now().strftime('exp-%m-%d_%H-%M'))
         expr_dir = './saved_models/{}/'.format(exp) #model files are saved here
 
         opt.crop_size = map(int, opt.crop_size.split('x'))
