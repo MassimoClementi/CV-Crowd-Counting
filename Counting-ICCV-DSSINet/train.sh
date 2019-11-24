@@ -4,7 +4,7 @@
 
 CUDA_VISIBLE_DEVICES=0 python -u nowtrain.py \
 	 --model CRFVGG_prune \
-	 --dataset shanghaiA \
+	 --dataset syntheticDataset \
 	 --no-save \
 	 --no-visual \
 	 --save_interval 6000 \
@@ -13,4 +13,4 @@ CUDA_VISIBLE_DEVICES=0 python -u nowtrain.py \
 	 --loss NORMMSSSIM \
 	 --lr 0.00001 \
 	 --gpus 0 \
-	 --epochs 900
+	 --epochs 300

@@ -42,9 +42,8 @@ datasets = {
         "density_method": "adaptive",
         "density_method_config": {'downsize':32},
 
-        #TODO: separated train and test folders
-        "train_image_path": SYNTHETIC_PATH + 'none',   #TODO!
-        "train_label_path": SYNTHETIC_PATH + 'none',   #TODO!
+        "train_image_path": SYNTHETIC_PATH + '/train_data/images',
+        "train_label_path": SYNTHETIC_PATH + '/train_data/ground_truth',
         "test_image_path": SYNTHETIC_PATH + '/test_data/images',
         "test_label_path": SYNTHETIC_PATH + '/test_data/ground_truth',
         "train_val_split": (lambda x:x, lambda x:x[:29]),
