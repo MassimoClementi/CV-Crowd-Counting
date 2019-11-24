@@ -13,4 +13,4 @@ Synthetic_Crowd/Assets/*
 !Synthetic_Crowd/Assets/CustomPrefabs
 Synthetic_Crowd/Assets/CustomPrefabs/*.meta
 Synthetic_Crowd/Assets/Scripts/*.meta
-SyntheticDataset/ground_truth/*.mat
+SyntheticDataset/test_data/ground_truth
