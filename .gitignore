@@ -1,11 +1,15 @@
 .DS_Store
 .vscode
+
 Counting-ICCV-DSSINet/*.pyc
 Counting-ICCV-DSSINet/*/*.pyc
 Counting-ICCV-DSSINet/._*
 Counting-ICCV-DSSINet/saved_models
 Counting-ICCV-DSSINet/ShanghaiTech
 Counting-ICCV-DSSINet/src/._*
+Counting-ICCV-DSSINet/nohup.out
+Counting-ICCV-DSSINet/pretrained_models
+
 Synthetic_Crowd/*
 !Synthetic_Crowd/Assets/
 Synthetic_Crowd/Assets/*
