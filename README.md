@@ -17,6 +17,11 @@ Open `Counting-ICCV-DSSINet` folder in a terminal window.
 ### Activate the virtual environment:
 > `source <name>/bin/activate`
 
+### Configure synthetic dataset
+The custom synthetic dataset in the repository is made of several images generated with Unity and contains both `.jpg` images and `.txt` ground-truth files, with the coordinates of the heads.
+
+To test/train with the given dataset first we need to generate the `.mat` ground-truth files running the matlab scripts `generate_gt` in the `train_data` and `test_data` folders.
+
 ## How to run
 Look at the GPU usages with the command `nvidia-smi`
 
@@ -30,7 +35,7 @@ Run the command `./test.sh ./saved_models/<dir_name>/<epoch>.h5`
 
 ## Documentation, guides and useful knowledge
 ### Paper and code
-Read the following paper as reference, understand how it works, try to run it and understand what kind of input data does it need (characterize the dataset)
+First NN
 > http://visal.cs.cityu.edu.hk/research/residual_regression_counting/
 
 Requirements:
@@ -44,6 +49,9 @@ To make it run
 - run python test.py
 
 **N.B:** Use "Colab" by Google to run the simulations, if needed
+
+Second NN
+> https://github.com/Legion56/Counting-ICCV-DSSINet
 
 
 ### Unity and UMA
