@@ -4,10 +4,10 @@ import socket
 hostname = socket.gethostname()
 SHANG_PATH = 'ShanghaiTech'
 SYNTHETIC_PATH = '../SyntheticDataset'
+UCF_PATH = 'UCF-CC-50'
 UCFEC_PATH = ''
 WORLD_PATH = ''
 TRANCOS_PATH = ''
-UCF_PATH = ''
 UCSD_PATH = ''
 
 datasets = {
@@ -28,9 +28,9 @@ datasets = {
         "density_method": "adaptive",
         "density_method_config": {'downsize':32},
 
-        "train_image_path": SHANG_PATH + '/part_B_final/train_data/images/',
+        "train_image_path": SHANG_PATH + '/part_B_final/train_data/images',
         "train_label_path": SHANG_PATH + '/part_B_final/train_data/ground_truth',
-        "test_image_path": SHANG_PATH + '/part_B_final/test_data/images/',
+        "test_image_path": SHANG_PATH + '/part_B_final/test_data/images',
         "test_label_path": SHANG_PATH + '/part_B_final/test_data/ground_truth',
         "train_val_split": (lambda x:x, lambda x:x[:29]),
         "annReadFunc": lambda x: x['image_info'][0][0][0][0][0],
@@ -46,6 +46,21 @@ datasets = {
         "train_label_path": SYNTHETIC_PATH + '/train_data/ground_truth',
         "test_image_path": SYNTHETIC_PATH + '/test_data/images',
         "test_label_path": SYNTHETIC_PATH + '/test_data/ground_truth',
+        "train_val_split": (lambda x:x, lambda x:x[:29]),
+        "annReadFunc": lambda x: x['image_info'][0][0][0][0][0],
+        "mean_std": [96.3414, 66.8793],
+        "annReadFuncTest": None
+    },
+
+    # Additional high density dataset
+    'UCF-CC-50': {
+        "density_method": "adaptive",
+        "density_method_config": {'downsize':32},
+
+        "train_image_path": UCF_PATH + '/images',
+        "train_label_path": UCF_PATH + '/ground_truth',
+        "test_image_path": UCF_PATH + '/images',
+        "test_label_path": UCF_PATH + '/ground_truth',
         "train_val_split": (lambda x:x, lambda x:x[:29]),
         "annReadFunc": lambda x: x['image_info'][0][0][0][0][0],
         "mean_std": [96.3414, 66.8793],
