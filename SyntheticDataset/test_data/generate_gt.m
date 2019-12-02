@@ -1,3 +1,8 @@
+pathgtmat = 'ground_truth';
+if ~exist(pathgtmat, 'dir')
+    mkdir(pathgtmat);
+end
+
 pathgt = 'ground_truth_txt';
 gts = dir([pathgt filesep '*.txt']);
 ngts = length(gts);
@@ -33,6 +38,6 @@ for i = 1:ngts
     name = gts(i).name;
     name = strsplit(name,'.');
     name = name{1,1};
-    filename = strcat('ground_truth/GT_',name,'.mat');
+    filename = strcat(pathgtmat,'/GT_',name,'.mat');
     save(filename,'image_info');
 end
