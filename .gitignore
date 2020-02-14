@@ -9,9 +9,6 @@ Counting-ICCV-DSSINet/ShanghaiTech
 Counting-ICCV-DSSINet/src/._*
 Counting-ICCV-DSSINet/nohup.out
 Counting-ICCV-DSSINet/pretrained_models
-Counting-ICCV-DSSINet/UCF-CC-50
 
 SyntheticDataset/test_data/ground_truth
 SyntheticDataset/train_data/ground_truth
-
-IGNORED
