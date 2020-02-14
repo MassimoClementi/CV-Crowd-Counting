@@ -1,8 +1,22 @@
-﻿using System.Collections;
+﻿/*
+
+    Author: Elisa Nicolussi Paolaz
+
+    Script to take screenshots and save head positions
+    Attach this script to each camera object
+
+    Images will be saved in "Savings/Screenshots/" as "IMG_x.jpg"
+    Ground-truths will be saved in "Savings/Positions/" as "IMG_x.txt"
+
+*/
+
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System.Text;
+
 
  public class ScreenShot : MonoBehaviour {   
     public static string IndexedFilename(string stub, string extension){
@@ -20,8 +34,8 @@ using System.Text;
     }
 
     public static void TakeScreenshot(Camera cam){
-        int captureWidth = (int)(cam.pixelWidth*2.25);
-        int captureHeight = (int)(cam.pixelHeight*2.25);
+        int captureWidth = (int)(cam.pixelWidth*1.35);
+        int captureHeight = (int)(cam.pixelHeight*1.35); 
         // Take screenshot
         RenderTexture rt = new RenderTexture(captureWidth, captureHeight, 24);
         cam.targetTexture = rt;

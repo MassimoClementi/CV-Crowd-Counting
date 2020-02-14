@@ -1,4 +1,49 @@
-﻿using System.Collections;
+﻿/*
+
+    Authors: Elisa Nicolussi Paolaz, Massimo Clementi
+    
+    Script to manage crowd generation in Unity
+    Attach this script to the CrowdManager object
+
+    1) In Unity environment drag the mesh models into the CrowdManager's Prefabs array
+       In the CrowdGenerator.cs script add for each mesh model the corresponding transform reference height in refY array
+
+    2) Choose a scene
+    Scene1:	Unity environment -> select Cameras1, Background1, Ground1
+            CrowdGenerator.cs -> const int amount = 1000;
+                                 bool slope = false;
+                                 const int nCameras = 8;
+                                 check cameras in InitializeCameraList()
+
+    Scene2: Unity environment -> select Cameras2, Background2, Ground2
+            CrowdGenerator.cs -> const int amount = 500;
+                                 bool slope = false;
+                                 const int nCameras = 4;
+                                 check cameras in InitializeCameraList()
+
+    Scene3: Unity environment -> select Cameras3, Ground3
+            CrowdGenerator.cs -> const int amount = 350;
+                                 bool slope = false;
+                                 const int nCameras = 4;
+                                 check cameras in InitializeCameraList()
+                                 front crowd: float yRotMin = 3*Mathf.PI/4;
+                                              float yRotMax = 5*Mathf.PI/4;
+                                 back crowd: float yRotMin = -Mathf.PI/3;
+                                             float yRotMax = Mathf.PI/3;
+
+    Slanted:Unity environment -> select Cameras (slope), Ground1
+            CrowdGenerator.cs -> const int amount = 1000;
+                                 bool slope = true;
+                                 const int nCameras = 8;
+                                 check cameras in InitializeCameraList()
+
+    3) Select a light source between "Directional light" and "Point light"
+
+    4) Press the play button, then press the "n" key to generate crowd and the "s" key to save images and ground-truths
+*/
+
+
+using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
@@ -7,6 +52,7 @@ using Unity.Collections;
 using Unity.Transforms;
 using Unity.Rendering;
 using Unity.Mathematics;
+
 
 public class CrowdGenerator : MonoBehaviour 
 {   
@@ -18,11 +64,12 @@ public class CrowdGenerator : MonoBehaviour
     List<Entity> entities = new List<Entity>();
     List<Entity> entitiesInstantiated = new List<Entity>();
     public static List<Vector3> headPositions = new List <Vector3>();
-    const int amount = 600; //number of people in the crowd
-    const int presence = 80; //randomicity (out of 100) whether a person is created or not
+    const int amount = 1000; //number of people in the crowd
+    const int presence = 100; //randomicity (out of 100) whether a person is created or not
+    bool slope = false;
     const int nCameras = 8;
     Camera[] cameras = new Camera[nCameras];
-    int[] nCrowdPrev = new int[nCameras]; //number of people in previous frame for each camera
+    
 
     void Start(){
         entityManager = World.Active.EntityManager;
@@ -36,32 +83,7 @@ public class CrowdGenerator : MonoBehaviour
 
     void Update(){
         InitializeCameraList();
-
-        //Count number of people in each camera FOV
-        for(int c=0; c<cameras.Length; c++){
-
-            int nCrowd = 0;
-            for (int i=0; i<entitiesInstantiated.Count; i++){
-
-                //Get head position vector from HeadPositionComponent for each entity
-                HeadPositionComponent headPositionComponent = entityManager.GetComponentData<HeadPositionComponent>(entitiesInstantiated[i]);
-                float3 headPositionECS = headPositionComponent.Value;
-                Vector3 headPosition = new Vector3(headPositionECS.x, headPositionECS.y, headPositionECS.z);
-
-                //Conversion from world coordinates to camera coordinates
-                Vector3 pos = cameras[c].WorldToViewportPoint(headPosition);
-
-                //Chech position
-                if( (pos.x >= 0 && pos.x <= 1) && (pos.y >= 0 && pos.y <= 1) && (pos.z > 0) ){
-                    nCrowd++;
-                }
-            }
-
-            //Print on log if number of people has changed
-            if (nCrowd != nCrowdPrev[c]) Debug.Log(cameras[c].name+": "+nCrowd+" people are visible"); 
-            nCrowdPrev[c] = nCrowd;
-        }
-
+       
         //Generate crowd
         if(Input.GetKeyDown("n")){
             GenerateCrowd(amount);
@@ -83,7 +105,7 @@ public class CrowdGenerator : MonoBehaviour
                 Value = new float3(0, refY[id], 0)
             });
             entityManager.SetComponentData(testentity, new Rotation{
-                Value = quaternion.Euler(0,0,0)
+                Value = quaternion.Euler(0,Mathf.PI,0)
             });
             float xPosition = 0f;
             float zPosition = 0f;
@@ -94,7 +116,7 @@ public class CrowdGenerator : MonoBehaviour
             
             headx = xPosition;
             headz = zPosition;
-            heady = refY[id] + refY[id]/2;
+            heady = 3*refY[id]/2;
 
             entityManager.SetComponentData(testentity, new HeadPositionComponent{
                 Value = new float3 (headx, heady, headz)
@@ -115,20 +137,30 @@ public class CrowdGenerator : MonoBehaviour
             zIstances = xIstances;
         }
         else{
-            xIstances = 10;
-            zIstances = (int)(amount/10);
+            if(slope){
+                xIstances = 30;
+                zIstances = (int)(amount/30);
+            }
+            else{
+                xIstances = 20;
+                zIstances = (int)(amount/20);
+            }
         }
 
         //Position and rotation variables inizialitazion
+        float yPosition = 0f;
+        float yIncrease = 0f;
         float xPosition = 0f;
         float zPosition = 0f;
-        float xSpacing = 0.75f;
-        float zSpacing = 0.75f;
+        float xSpacing = 0.5f;          //default 0.5f, scene3 0.75f/0.65f
+        float zSpacing = 0.5f;          //default 0.5f, scene3 0.75f/0.65f
         float yRotation = 0f;
+        float yRotMin = 3*Mathf.PI/4;   //3*Mathf.PI/4 (front), -Mathf.PI/3 (back)
+        float yRotMax = 5*Mathf.PI/4;   //5*Mathf.PI/4 (front), Mathf.PI/3 (back)
 
-        int posRand = 35;           //contribute of the random position (out of 100)
-        int rowRandCumul = 35;      //contribute of the random cumulative whole rows displacement (out of 100)
-        int columnRand = 90;        //contribute of the random column displacement (out of 100)
+        int posRand = 15;               //contribution of the additive component of (x,z) model position
+        int rowRandCumul = 25;          //maximum range of the random row (z) cumulative displacement
+        int columnRand = 40;            //maximum range of the random column (x) displacement
         float rowRandCumulIndex = 0;
         float columnRandIndex = 0;
         float randTemp = 0f;
@@ -156,15 +188,18 @@ public class CrowdGenerator : MonoBehaviour
                 zPosition = (z + rowRandCumulIndex + randTemp - zIstances/2) * zSpacing;
 
                 //Compute rotation
-                yRotation = UnityEngine.Random.Range(0f,180f);
+                yRotation = UnityEngine.Random.Range(yRotMin,yRotMax);
                 
                 //Pick a random person from the converted entity prefabs and instantiate an entity
                 index = UnityEngine.Random.Range(0,entities.Count);
                 entity = entityManager.Instantiate(entities[index]);
 
+                //Linear computation of yPosition
+                yPosition = refY[index] + yIncrease;
+
                 //Set component data for the instantiated entity
                 entityManager.SetComponentData(entity, new Translation{
-                    Value = new float3(xPosition, refY[index], zPosition)
+                    Value = new float3(xPosition, yPosition, zPosition)
                 });
                 entityManager.SetComponentData(entity, new Rotation{
                     Value = quaternion.Euler(0,yRotation,0)
@@ -172,7 +207,7 @@ public class CrowdGenerator : MonoBehaviour
 
                 headx = xPosition;
                 headz = zPosition;
-                heady = refY[index] + refY[index]/2;
+                heady = (3*refY[index]/2) + yIncrease;
                 
                 entityManager.SetComponentData(entity, new HeadPositionComponent{
                     Value = new float3 (headx, heady, headz)
@@ -182,6 +217,9 @@ public class CrowdGenerator : MonoBehaviour
                 entitiesInstantiated.Add(entity);
                 }
             }
+
+            //Increase y positioning
+            if (slope == true) yIncrease += 0.15f;
         }
 
         //Add head position to specific list
@@ -193,10 +231,10 @@ public class CrowdGenerator : MonoBehaviour
         cameras[1] = GameObject.Find("Camera2").GetComponent<Camera>();
         cameras[2] = GameObject.Find("Camera3").GetComponent<Camera>();
         cameras[3] = GameObject.Find("Camera4").GetComponent<Camera>();
-        cameras[4] = GameObject.Find("Camera1hd").GetComponent<Camera>();
-        cameras[5] = GameObject.Find("Camera2hd").GetComponent<Camera>();
-        cameras[6] = GameObject.Find("Camera3hd").GetComponent<Camera>();
-        cameras[7] = GameObject.Find("Camera4hd").GetComponent<Camera>();
+        cameras[4] = GameObject.Find("Camera5").GetComponent<Camera>();
+        cameras[5] = GameObject.Find("Camera6").GetComponent<Camera>();
+        cameras[6] = GameObject.Find("Camera7").GetComponent<Camera>();
+        cameras[7] = GameObject.Find("Camera8").GetComponent<Camera>();
     }
 
     void ManageHeadPositions(List<Entity> entitiesInstantiated){
@@ -208,13 +246,24 @@ public class CrowdGenerator : MonoBehaviour
             //Add head position vector to list
             headPositions.Add(headPosition);
         }
-        
-        //Just to test where heads are positioned
-        int counter = 0;
-        foreach (Vector3 hp in headPositions){
-            GameObject head = new GameObject("Head "+counter++);
-            head.GetComponent<UnityEngine.Transform>().position = hp;
+
+        //Count number of people in each camera FOV
+        InitializeCameraList();
+        for(int c=0; c<cameras.Length; c++){
+
+            int nCrowd = 0;
+            for (int i=0; i<entitiesInstantiated.Count; i++){
+                //Conversion from world coordinates to camera coordinates
+                Vector3 pos = cameras[c].WorldToViewportPoint(headPositions[i]);
+
+                //Chech position
+                if( (pos.x >= 0 && pos.x <= 1) && (pos.y >= 0 && pos.y <= 1) && (pos.z > 0) ){
+                    nCrowd++;
+                }
+            }
+
+            //Print on log
+            Debug.Log(cameras[c].name+": "+nCrowd+" people are visible"); 
         }
-        
     }
 }

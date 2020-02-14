@@ -1,3 +1,14 @@
+%
+%   Author: Elisa Nicolussi Paolaz
+%   
+%   Script to generate .mat ground-truth file
+%   
+%   It reads the head positions from the .txt file, 
+%   creates and saves the struct variable which contains in its two fields
+%   the array of head positions ('location') 
+%   and the total number of people ('number')
+%
+
 pathgtmat = 'ground_truth';
 if ~exist(pathgtmat, 'dir')
     mkdir(pathgtmat);

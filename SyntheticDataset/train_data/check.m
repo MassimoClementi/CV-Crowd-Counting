@@ -8,7 +8,6 @@ ngts = length(gts);
 
 id = 1;
 for i = 1:nimages
-%for i = id:id
     filename = strcat(pathimg,'/',images(i).name);
     img = imread(filename);
     filename = strcat(pathgt,'/',gts(i).name);
