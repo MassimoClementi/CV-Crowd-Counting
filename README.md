@@ -56,17 +56,18 @@ Customize the training parameters in the `train.sh` script. The default configur
 
 ```
 CUDA_VISIBLE_DEVICES=0 python -u nowtrain.py \
-         --model CRFVGG_prune \
-         --dataset shanghaiA \
-         --no-save \
-         --no-visual \
-         --save_interval 2000 \
-         --no-preload \
-         --batch_size 12 \
-         --loss NORMMSSSIM \
-         --lr 0.00001 \
-         --gpus 0 \
-         --epochs 900
+	 --model CRFVGG_prune \
+	 --dataset shanghaiA \
+	 --no-save \
+	 --no-visual \
+	 --save_interval 1000 \
+	 --no-preload \
+	 --batch_size 12 \
+	 --patches_per_sample 5 \
+	 --loss NORMMSSSIM \
+	 --lr 0.00001 \
+	 --gpus 0 \
+	 --epochs 900
 ```
 
 Adjust batch_size accordingly to your GPU memory availability.
@@ -82,14 +83,14 @@ Customize the training parameters in the `train.sh` script. The default configur
 
 ```
 CUDA_VISIBLE_DEVICES=0 python -u nowtest.py \
-        --dataset shanghaiA \
-        --model_name CRFVGG_prune \
-        --no-preload \
-        --no-wait \
-        --no-save \
-        --gpus 0\
-        --test_batch_size 12 \
-        --model_path $1 
+	--dataset shanghaiA \
+	--model_name CRFVGG_prune \
+	--no-preload \
+	--no-wait \
+	--no-save \
+	--gpus 0 \
+	--test_batch_size 12 \
+	--model_path $1 
 ```
 
 Again, adjust the batch_size value accordingly to your GPU memory availability.
