@@ -10,11 +10,11 @@ rm -rf ../SyntheticDataset/test_data/ground_truth/._*
 
 # Run nowtest code with custom flags
 CUDA_VISIBLE_DEVICES=0 python -u nowtest.py \
-	--dataset UCF-CC-50 \
+	--dataset shanghaiA \
 	--model_name CRFVGG_prune \
 	--no-preload \
 	--no-wait \
 	--no-save \
-	--gpus 0\
+	--gpus 0 \
 	--test_batch_size 12 \
 	--model_path $1 

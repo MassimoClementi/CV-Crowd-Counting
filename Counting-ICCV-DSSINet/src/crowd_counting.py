@@ -39,8 +39,7 @@ class CrowdCounter(nn.Module):
 
             #IMPORTANT: this loads the pretrained VGG net to pre-set the weights
             network.load_net('pretrained_models/pruned_VGG.h5', self.model.front_end, skip=True)
-
-            # network.load_net("../../vgg16.h5", self.model.front_end, skip=True)
+            # network.load_net("pretrained_models/vgg16.h5", self.model.front_end, skip=True)
 
         def calpara(model):
             print('---------- Networks initialized -------------')
