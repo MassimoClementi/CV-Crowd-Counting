@@ -79,7 +79,7 @@ Run the command
 to train the network and check `saved_models/<train_name>/log.log` or `nohup.out`.
 
 ### Testing phase
-Customize the training parameters in the `train.sh` script. The default configuration is:
+Customize the testing parameters in the `test.sh` script. The default configuration is:
 
 ```
 CUDA_VISIBLE_DEVICES=0 python -u nowtest.py \
