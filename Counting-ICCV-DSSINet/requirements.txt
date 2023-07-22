@@ -1,5 +1,5 @@
 Cython==0.29.14
-future==0.18.2
+future==0.18.3
 futures==3.3.0
 h5py==2.10.0
 numpy==1.16.5
